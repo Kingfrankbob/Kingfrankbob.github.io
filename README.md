@@ -1,4 +1,4 @@
-Live preview at: <a href="Kingfrankbob.github.io">Kingfrankbob.github.io</a>
+Live preview at: <a href="https://kingfrankbob.github.io/">Kingfrankbob.github.io</a>
 
 
 ## [Global: HTML5 website template](http://buckymaler.com/global)
