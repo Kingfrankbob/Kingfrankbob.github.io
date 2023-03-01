@@ -2,7 +2,7 @@
 <html lang="en">
 
 <head>
-  <title>Michaels Site</title>
+  <title>Michael's Site</title>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -10,6 +10,7 @@
   <meta name="keywords" content="kingfrankbob, retroracer, mandelbrot, custom, cool, Em See">
   <meta name="author" content="Maybe">
   <link rel="stylesheet" href="assets/css/main.css">
+  <link rel="icon" href="./assets/img/webIcon.png" type="image/x-icon">
 </head>
 
 <body>
@@ -18,7 +19,7 @@
   <div class="device-notification">
     <a class="device-notification--logo" href="#0">
       <img src="assets/img/logo.png" alt="Global">
-      <p>Global</p>
+      <p>Michael's Site</p>
     </a>
     <p class="device-notification--message">Github has so much to offer that we must request you orient your device to
       portrait or find a larger screen. You won't be disappointed.</p>
@@ -32,9 +33,11 @@
           <header class="header">
             <a class="header--logo" href="#0">
               <img src="assets/img/logo.png" alt="Kingfrankbobs">
-              <p>Michaels Page</p>
+              <p>Michael's Page</p>
             </a>
-            <button class="header--cta cta">Check It Out!</button>
+            <button class="header--cta cta" onclick="window.location.href='https://github.com/Kingfrankbob/';">Check It
+              All
+              Out!</button>
             <div class="header--nav-toggle">
               <span></span>
             </div>
@@ -45,14 +48,14 @@
               <li><span>Works</span></li>
               <li><span>About</span></li>
               <li><span>Contact</span></li>
-              <li><span>Spacer</span></li>
+              <li><span>Fun Stuff</span></li>
             </ul>
           </nav>
           <ul class="l-main-content main-content">
             <li class="l-section section section--is-active">
               <div class="intro">
                 <div class="intro--banner">
-                  <h1>Welcome, Im <br> Michael Cragun</h1>
+                  <h1>Welcome, I'm <br> Michael Cragun</h1>
                   <a href="https://github.com/Kingfrankbob?tab=repositories" style="color:aliceblue">
                     <button class="cta">Go to Repo Page
                       <svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg"
@@ -71,11 +74,11 @@
                 <div class="intro--options">
                   <a href="#0">
                     <h3>What Languages?</h3>
-                    <p>Ive worked in C#, C++, C, Java, Js, Lua and Python</p>
+                    <p>I have worked in C++, C, C#, CSS, Html, Java, Js, Lua and Python.</p>
                   </a>
                   <a href="#0">
                     <h3>Anything Professional?</h3>
-                    <p>I have taken the time to take a few courses for some of the listed languages.</p>
+                    <p>I have set time aside to take a few courses for some of the listed languages.</p>
                   </a>
                   <a href="#0">
                     <h3>Me &amp; Others</h3>
@@ -87,7 +90,7 @@
             </li>
             <li class="l-section section">
               <div class="work">
-                <h2>Selected work</h2>
+                <h2>Selected Works</h2>
                 <div class="work--lockup">
                   <ul class="slider">
                     <li class="slider--item slider--item-left">
@@ -159,7 +162,7 @@
               <div class="about">
                 <div class="about--banner">
                   <h2>So Many Things<br>To Do</h2>
-                  <a href="./projects/index.html">More info on my upcoming Projects!
+                  <a href="./projectsUpcoming/index.html">More info on my upcoming Projects!
                     <span>
                       <svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg"
                         xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 150 118"
@@ -172,7 +175,7 @@
                     </span>
                   </a>
                   <h2>Started, but Not Finished?</h2>
-                  <a href="./projects/index.html">Read more about the Work In Progress Projects!
+                  <a href="./projectsDone/index.html">Read more about the Work In Progress Projects!
                     <span>
                       <svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg"
                         xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 150 118"
@@ -219,105 +222,59 @@
               </div>
             </li>
             <li class="l-section section">
-              <div class="hire">
-                <h2>You want me to do</h2>
-                <h2 class="rainbow">anything</h2>
+              <div class="hire" id="newScript" onclick="onClick()">
+                <canvas class="confetti" id="canvas"></canvas>
+                <div class="circle"></div>
+                <div class="circle"></div>
+                <div class="circle"></div>
+                <div class="circle"></div>
+                <div class="circle"></div>
+                <div class="circle"></div>
+                <div class="circle"></div>
+                <div class="circle"></div>
+                <div class="circle"></div>
+                <div class="circle"></div>
+                <div class="circle"></div>
+                <div class="circle"></div>
+                <div class="circle"></div>
+                <div class="circle"></div>
+                <div class="circle"></div>
+                <div class="circle"></div>
+                <div class="circle"></div>
+                <div class="circle"></div>
+                <div class="circle"></div>
+                <div class="circle"></div>
+                <h2>Do you want me to do</h2>
+                <!-- <h2 class="rainbow">anything</h2>-->
+                <!-- <marquee class="rainbow">anything everything something nothing </marquee> -->
+                <div class="marquee">
+                  <div class="marqueeone">
+                    <h2 class="rainbow">anything</h2>&nbsp;&nbsp;&nbsp;
+                    <h2 class="rainbow">everything</h2>&nbsp;&nbsp;&nbsp;
+                    <h2 class="rainbow">nothing</h2>&nbsp;&nbsp;&nbsp;
+                    <h2 class="rainbow">something</h2>&nbsp;&nbsp;&nbsp;
+                  </div>
+                  <div class="marqueetwo">
+                    <h2 class="rainbow">anything</h2>&nbsp;&nbsp;&nbsp;
+                    <h2 class="rainbow">everything</h2>&nbsp;&nbsp;&nbsp;
+                    <h2 class="rainbow">nothing</h2>&nbsp;&nbsp;&nbsp;
+                    <h2 class="rainbow">something</h2>&nbsp;&nbsp;&nbsp;
+                  </div>
+                  <div class="marqueethree">
+                    <h2 class="rainbow">anything</h2>&nbsp;&nbsp;&nbsp;
+                    <h2 class="rainbow">everything</h2>&nbsp;&nbsp;&nbsp;
+                    <h2 class="rainbow">nothing</h2>&nbsp;&nbsp;&nbsp;
+                    <h2 class="rainbow">something</h2>&nbsp;&nbsp;&nbsp;
+                  </div>
+                  <div class="marqueefour">
+                    <h2 class="rainbow">anything</h2>&nbsp;&nbsp;&nbsp;
+                    <h2 class="rainbow">everything</h2>&nbsp;&nbsp;&nbsp;
+                    <h2 class="rainbow">nothing</h2>&nbsp;&nbsp;&nbsp;
+                    <h2 class="rainbow">something</h2>&nbsp;&nbsp;&nbsp;
+                  </div>
+                </div>
                 <h2>?</h2>
-                <!-- <div class="example2"> -->
-                <!-- <h3>Slide up</h3> -->
-                <!-- </div> -->
-                <!-- checkout formspree.io for easy form setup -->
-                <!-- <form class="work-request">
-                  <div class="work-request--options">
-                    <span class="options-a">
-                      <input id="opt-1" type="checkbox" value="app design">
-                      <label for="opt-1">
-                        <svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg"
-                          xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 150 111"
-                          style="enable-background:new 0 0 150 111;" xml:space="preserve">
-                          <g transform="translate(0.000000,111.000000) scale(0.100000,-0.100000)">
-                            <path
-                              d="M950,705L555,310L360,505C253,612,160,700,155,700c-6,0-44-34-85-75l-75-75l278-278L550-5l475,475c261,261,475,480,475,485c0,13-132,145-145,145C1349,1100,1167,922,950,705z" />
-                          </g>
-                        </svg>
-                        App Design
-                      </label>
-                      <input id="opt-2" type="checkbox" value="graphic design">
-                      <label for="opt-2">
-                        <svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg"
-                          xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 150 111"
-                          style="enable-background:new 0 0 150 111;" xml:space="preserve">
-                          <g transform="translate(0.000000,111.000000) scale(0.100000,-0.100000)">
-                            <path
-                              d="M950,705L555,310L360,505C253,612,160,700,155,700c-6,0-44-34-85-75l-75-75l278-278L550-5l475,475c261,261,475,480,475,485c0,13-132,145-145,145C1349,1100,1167,922,950,705z" />
-                          </g>
-                        </svg>
-                        Graphic Design
-                      </label>
-                      <input id="opt-3" type="checkbox" value="motion design">
-                      <label for="opt-3">
-                        <svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg"
-                          xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 150 111"
-                          style="enable-background:new 0 0 150 111;" xml:space="preserve">
-                          <g transform="translate(0.000000,111.000000) scale(0.100000,-0.100000)">
-                            <path
-                              d="M950,705L555,310L360,505C253,612,160,700,155,700c-6,0-44-34-85-75l-75-75l278-278L550-5l475,475c261,261,475,480,475,485c0,13-132,145-145,145C1349,1100,1167,922,950,705z" />
-                          </g>
-                        </svg>
-                        Motion Design
-                      </label>
-                    </span>
-                    <span class="options-b">
-                      <input id="opt-4" type="checkbox" value="ux design">
-                      <label for="opt-4">
-                        <svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg"
-                          xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 150 111"
-                          style="enable-background:new 0 0 150 111;" xml:space="preserve">
-                          <g transform="translate(0.000000,111.000000) scale(0.100000,-0.100000)">
-                            <path
-                              d="M950,705L555,310L360,505C253,612,160,700,155,700c-6,0-44-34-85-75l-75-75l278-278L550-5l475,475c261,261,475,480,475,485c0,13-132,145-145,145C1349,1100,1167,922,950,705z" />
-                          </g>
-                        </svg>
-                        UX Design
-                      </label>
-                      <input id="opt-5" type="checkbox" value="webdesign">
-                      <label for="opt-5">
-                        <svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg"
-                          xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 150 111"
-                          style="enable-background:new 0 0 150 111;" xml:space="preserve">
-                          <g transform="translate(0.000000,111.000000) scale(0.100000,-0.100000)">
-                            <path
-                              d="M950,705L555,310L360,505C253,612,160,700,155,700c-6,0-44-34-85-75l-75-75l278-278L550-5l475,475c261,261,475,480,475,485c0,13-132,145-145,145C1349,1100,1167,922,950,705z" />
-                          </g>
-                        </svg>
-                        Webdesign
-                      </label>
-                      <input id="opt-6" type="checkbox" value="marketing">
-                      <label for="opt-6">
-                        <svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg"
-                          xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 150 111"
-                          style="enable-background:new 0 0 150 111;" xml:space="preserve">
-                          <g transform="translate(0.000000,111.000000) scale(0.100000,-0.100000)">
-                            <path
-                              d="M950,705L555,310L360,505C253,612,160,700,155,700c-6,0-44-34-85-75l-75-75l278-278L550-5l475,475c261,261,475,480,475,485c0,13-132,145-145,145C1349,1100,1167,922,950,705z" />
-                          </g>
-                        </svg>
-                        Marketing
-                      </label>
-                    </span>
-                  </div>
-                  <div class="work-request--information">
-                    <div class="information-name">
-                      <input id="name" type="text" spellcheck="false">
-                      <label for="name">Name</label>
-                    </div>
-                    <div class="information-email">
-                      <input id="email" type="email" spellcheck="false">
-                      <label for="email">Email</label>
-                    </div>
-                  </div>
-                  <input type="submit" value="Send Request">
-                </form> -->
+                <p>Clicks: <a id="clicks">0</a></p>
               </div>
             </li>
           </ul>
@@ -329,73 +286,20 @@
       <li>Works</li>
       <li>About</li>
       <li>Contact</li>
-      <li>Hire us</li>
+      <li>Fun Stuff</li>
     </ul>
   </div>
 
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.4/jquery.min.js"></script>
   <script>window.jQuery || document.write('<script src="assets/js/vendor/jquery-2.2.4.min.js"><\/script>')</script>
   <script src="assets/js/functions-min.js"></script>
+  <script src="./assets/js/main.js"></script>
   <script>
     function copyText() {
       navigator.clipboard.writeText
         ("MesaDePrimos#8501");
     }
-    var t = $(".side-nav").find(".is-active");
-    var n = $(".side-nav").children().index(t);
-
-
-    var dots = [],
-      mouse = {
-        x: 0,
-        y: 0
-      };
-    var Dot = function () {
-      this.x = 0;
-      this.y = 0;
-      this.node = (function () {
-        var n = document.createElement("div");
-        n.className = "trail";
-        document.body.appendChild(n);
-        return n;
-      }());
-    };
-    Dot.prototype.draw = function () {
-      this.node.style.left = this.x + "px";
-      this.node.style.top = this.y + "px";
-    };
-    for (var i = 0; i < 12; i++) {
-      var d = new Dot();
-      dots.push(d);
-    }
-    function draw() {
-      var x = mouse.x,
-        y = mouse.y;
-      dots.forEach(function (dot, index, dots) {
-        var nextDot = dots[index + 1] || dots[0];
-
-        dot.x = x;
-        dot.y = y;
-        dot.draw();
-        x += (nextDot.x - dot.x) * .6;
-        y += (nextDot.y - dot.y) * .6;
-
-      });
-    }
-    addEventListener("mousemove", function (event) {
-      // event.preventDefault();
-      mouse.x = event.pageX;
-      mouse.y = event.pageY;
-    });
-    function animate() {
-      draw();
-      requestAnimationFrame(animate);
-    }
-    // if (n == 4)
-    animate();
-
   </script>
-
 </body>
 
 </html>

@@ -739,6 +739,7 @@ body {
     position: relative;
     font-size: 68px;
     font-weight: 900;
+    /* background-color: #; */
     line-height: 1;
     z-index: 1
 }
@@ -1931,11 +1932,70 @@ body {
     }
 }
 
-.trail {
+.circle {
+    height: 24px;
+    width: 24px;
+    border-radius: 24px;
+    background-color: black;
+    position: fixed;
+    top: 0;
+    left: 0;
+    pointer-events: none;
+    z-index: 99999999;
+}
+
+.marquee {
+    height: 35px;
+    width: 100%;
+    overflow: hidden;
+    position: relative;
+    padding: 0 0 8px 0;
+}
+
+
+.marquee .marqueeone {
+    animation: marquee 30s linear infinite
+}
+
+.marquee .marqueetwo {
+    animation: marquee 30s linear 7.5s infinite
+}
+
+.marquee .marqueethree {
+    animation: marquee 30s linear 15s infinite
+}
+
+.marquee .marqueefour {
+    animation: marquee 30s linear 22.5s infinite
+}
+
+.marquee div {
     position: absolute;
-    height: 2px;
-    width: 2px;
-    border-radius: 3px;
-    background: teal;
-    opacity: 50%;
+    width: 100%;
+    left: 100%;
+    height: 40px;
+    display: flex;
+    justify-content: space-between;
+}
+
+@keyframes marquee {
+    0% {
+        left: 100%;
+    }
+
+    50% {
+        left: -100%;
+    }
+
+    100% {
+        left: -100%
+    }
+}
+
+.confetti {
+    max-width: 640px;
+    display: block;
+    margin: 0 auto;
+    border: 1px solid #ddd;
+    user-select: none;
 }
