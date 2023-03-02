@@ -911,7 +911,7 @@ body {
   border-right-color: transparent;
   border-bottom-color: transparent;
 }
-.about--banner::after {
+/* .about--banner::after {
   content: "";
   position: absolute;
   top: 75px;
@@ -920,7 +920,7 @@ body {
   width: 10px;
   height: 10px;
   background-color: #0f33ff;
-}
+} */
 .about--banner h2 {
   position: relative;
   margin-top: 35px;
@@ -929,7 +929,7 @@ body {
   line-height: 1;
   z-index: 1;
 }
-.about--banner h2::before {
+/* .about--banner h2::before {
   content: "";
   position: absolute;
   top: 60px;
@@ -938,8 +938,8 @@ body {
   height: 30px;
   background-color: #0f33ff;
   border-radius: 50%;
-}
-.about--banner h2::after {
+} */
+/* .about--banner h2::after {
   content: "";
   position: absolute;
   top: 255px;
@@ -947,7 +947,7 @@ body {
   width: 10px;
   height: 10px;
   background-color: #0f33ff;
-}
+} */
 .about--banner a {
   padding: 5px 17px 5px 0;
   text-decoration: none;
@@ -1436,7 +1436,7 @@ body {
 .outer-nav li.is-vis:nth-child(5) {
   transition-delay: 0.16s;
 }/*# sourceMappingURL=main.css.map */s
-}
+
 
 .rainbow {
     text-align: center;
@@ -1571,6 +1571,10 @@ body {
   height: 40px;
 }
 .socialMediaButtonMail{
+  width: 64px;
+  height: 64px;
+}
+.socialMediaButtonGithub {
   width: 64px;
   height: 64px;
 }
