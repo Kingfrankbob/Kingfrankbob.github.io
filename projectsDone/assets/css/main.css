@@ -347,6 +347,19 @@ img {
     float: left;
 }
 
+.imageStyle1 {
+    width: 25%;
+    height: auto;
+    float: left;
+}
+
+.textStyle1 {
+    width: 65%;
+    height: auto;
+    float: right;
+    text-align: right;
+}
+
 .headingf {
     width: 100%;
     font-size: 20px;
