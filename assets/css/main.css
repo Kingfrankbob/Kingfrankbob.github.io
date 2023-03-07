@@ -2021,16 +2021,28 @@ body {
 
 
 /* The current year */
-.socialMediaButtonDiscord
-{
+.socialMediaButtonDiscord {
   width: 60px;
   height: 40px;
 }
-.socialMediaButtonMail{
+
+.socialMediaButtonMail {
   width: 64px;
   height: 64px;
 }
+
 .socialMediaButtonGithub {
   width: 64px;
   height: 64px;
+}
+
+.canvasTet body {
+  background: black;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.canvasTet canvas {
+  border: 1px solid white;
 }
