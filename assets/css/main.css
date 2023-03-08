@@ -1440,7 +1440,7 @@ body {
   margin: 0 auto 25px auto
 }
 
-.contact--lockup .modal--options li:nth-child(1) {
+/* .contact--lockup .modal--options li:nth-child(1) {
   background-color: #1769ff
 }
 
@@ -1452,7 +1452,7 @@ body {
   margin-bottom: 0;
   background-color: #0f33ff;
   text-transform: uppercase
-}
+} */
 
 .contact--lockup .modal--options a {
   display: block;
@@ -2024,6 +2024,8 @@ body {
 .socialMediaButtonDiscord {
   width: 60px;
   height: 40px;
+  margin-top: 12px; margin-bottom: 12px;
+  margin-left: 2px; margin-right: 2px;
 }
 
 .socialMediaButtonMail {
