@@ -1,5 +1,13 @@
 const coords = { x: 0, y: 0 };
+
+let total = document.getElementById("clicks").innerHTML;
 const circles = document.querySelectorAll(".circle");
+// let circles = new Array();
+
+
+
+
+
 
 const colors = [
     "#325c2a", "#2f712d", "#2f8839", "#2fa04c", "#2eba65", "#2dd485", "#3adea8", "#4ae8c9", "#5af0e7", "#6cebf6", "#7fe0fb", "#94d9ff"
@@ -19,6 +27,7 @@ window.addEventListener("mousemove", function (e) {
 
 function animateCircles() {
 
+
     let x = coords.x;
     let y = coords.y;
 
@@ -35,8 +44,14 @@ function animateCircles() {
         x += (nextCircle.x - x) * 0.3;
         y += (nextCircle.y - y) * 0.3;
     });
-
+    modCircles
     requestAnimationFrame(animateCircles);
+}
+function modCircles() {
+    if(circles.length > total)
+        for (var i = 0; i < total; i++) {
+    circles.pop();
+}
 }
 
 animateCircles();
