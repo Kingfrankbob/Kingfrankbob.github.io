@@ -1,14 +1,8 @@
 const coords = { x: 0, y: 0 };
 
 let total = document.getElementById("clicks").innerHTML;
-const circles = document.querySelectorAll(".circle");
-// let circles = new Array();
-
-
-
-
-
-
+let circles = document.querySelectorAll(".circle");
+let infiniteLoop = false;
 const colors = [
     "#325c2a", "#2f712d", "#2f8839", "#2fa04c", "#2eba65", "#2dd485", "#3adea8", "#4ae8c9", "#5af0e7", "#6cebf6", "#7fe0fb", "#94d9ff"
 ];
@@ -27,34 +21,48 @@ window.addEventListener("mousemove", function (e) {
 
 function animateCircles() {
 
+    // let xYxD = circles.pop();
+    
+
 
     let x = coords.x;
     let y = coords.y;
+    if(!infiniteLoop){
+        circles.forEach(function (circle, index) {
+            circle.style.left = x - 12 + "px";
+            circle.style.top = y - 12 + "px";
 
-    circles.forEach(function (circle, index) {
-        circle.style.left = x - 12 + "px";
-        circle.style.top = y - 12 + "px";
+            circle.style.scale = (circles.length - index) / circles.length;
 
-        circle.style.scale = (circles.length - index) / circles.length;
+            circle.x = x;
+            circle.y = y;
 
-        circle.x = x;
-        circle.y = y;
-
-        const nextCircle = circles[index + 1] || circles[0];
-        x += (nextCircle.x - x) * 0.3;
-        y += (nextCircle.y - y) * 0.3;
-    });
-    modCircles
+            const nextCircle = circles[index + 1] || circles[0];
+            x += (nextCircle.x - x) * 0.3;
+            y += (nextCircle.y - y) * 0.3;
+        });
+    }
     requestAnimationFrame(animateCircles);
 }
-function modCircles() {
-    if(circles.length > total)
-        for (var i = 0; i < total; i++) {
-    circles.pop();
+
+var timer;
+var timeout = function () {
+    infiniteLoop = true;
 }
-}
+timer = setTimeout(timeout, 100);
+window.onmousemove = function() {
+    clearTimeout(timer);
+    infiniteLoop = false;
+    timer = setTimeout(timeout, 100);
+};
 
 animateCircles();
+
+
+
+
+
+
 
 
 
