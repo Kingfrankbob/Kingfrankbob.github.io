@@ -23,6 +23,7 @@
     />
 
     <link rel="icon" href="./assets/img/webIcon.png" type="image/x-icon" />
+    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.0/jquery.min.js">    </script>
   </head>
 
   <body>
@@ -546,6 +547,11 @@
                     <a id="clicks">0</a>
                     <br />
                     <a href="./snake/index.html"> More! </a>
+                    <script>
+            $.ajax("https://docs.google.com/spreadsheets/d/e/2PACX-1vQrkYKmmUDi_7_MOAJ1mbUAgL5F5JNahdcriOo3iOPV2ToqNAQfhjADcthVw6gi8689QcE5CKEVwOft/pub?gid=688587437&single=true&range=b4&output=csv").done(function(result){
+                alert(result);
+            });
+        </script>
                   </p>
                 </div>
               </li>
