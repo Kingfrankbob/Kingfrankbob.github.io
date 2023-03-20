@@ -3,7 +3,7 @@ console.log("googleRetreive.js loaded");
 gapi.load("client", function () {
     gapi.client.init({
         apiKey: "AIzaSyByVmS9mRHs3K1d_M0WXtGg6QC_1H5lOo4",
-        clientId: "project-b-381214",
+        clientId: "418644215361-mg35m20q1d7i82k64utfibpf8e1nrsca.apps.googleusercontent.com",
         discoveryDocs: ["https://sheets.googleapis.com/$discovery/rest?version=v4"],
         scope: "https://www.googleapis.com/auth/spreadsheets.readonly"
     }).then(function () {
