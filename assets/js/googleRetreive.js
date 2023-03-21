@@ -1,4 +1,4 @@
-
+// using google sheets api to retrive data from google sheets
 console.log("googleRetreive.js loaded");
 gapi.load("client", function () {
     gapi.client.init({
@@ -8,17 +8,34 @@ gapi.load("client", function () {
         scope: "https://www.googleapis.com/auth/spreadsheets.readonly"
     }).then(function () {
         console.log("gapi.client.init() success");
-        var spreadsheetId = "1OwsrJNNC_yWgsHPLPhn3ejGUjmebfZq4yyDnCup9hDw";
-        var range = "Summary!B4";
-        gapi.client.sheets.spreadsheets.values.get({
-            spreadsheetId: spreadsheetId,
-            range: range,
-        }).then(function (response) {
-            var result = response.result;
-            console.log(result);
-        }, function (reason) {
-            console.error('error: ' + reason.result.error.message);
-        });
+        // var spreadsheetId = "1OwsrJNNC_yWgsHPLPhn3ejGUjmebfZq4yyDnCup9hDw";
+        // var range = "Summary!B4";
+        // gapi.client.sheets.spreadsheets.values.get({
+        //     spreadsheetId: spreadsheetId,
+        //     range: range,
+        // }).then(function (response) {
+        //     var result = response.result;
+        //     console.log(result);
+        // }, function (reason) {
+        //     console.error('error: ' + reason.result.error.message);
+        // });
+
+        try {
+          // Fetch first 10 files
+          response = gapi.client.sheets.spreadsheets.values.get({
+            spreadsheetId: '1OwsrJNNC_yWgsHPLPhn3ejGUjmebfZq4yyDnCup9hDw',
+            range: 'Summary!B4',
+          });
+        } catch (err) {
+          document.getElementById('content').innerText = err.message;
+          return;
+        }
+        console.log(response);
+
+
+
+
+
     });
 });
-    //make a code to retrive data from google sheets in javscript
+    //retrieve data from google sheets in javascript using the new google api
