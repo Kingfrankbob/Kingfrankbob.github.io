@@ -35,7 +35,7 @@ gapi.load("client", function () {
             range: 'Summary!B4',
           });
         } catch (err) {
-          document.getElementById('content').innerText = err.message;
+          document.getElementById('number').innerText = err.message;
           return;
         }
         console.log(response);
