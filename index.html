@@ -489,6 +489,22 @@
                   <div class="circle"></div>
                   <div class="circle"></div>
                   <div class="circle"></div>
+                  <script>
+                    function moveCircle() {
+                      var time = Date.now() / 1000;
+                      yp = Math.sin(time) * 50 + Math.sin(time * 2) * 20;
+                      xp =
+                        Math.cos(time * 0.5) * 50 + Math.cos(time * 1.5) * 20;
+
+                      requestAnimationFrame(moveCircle);
+                    }
+                    // moveCircle();
+                  </script>
+                  <div id="sheet">
+                    <h1 id="data" style="color: white; text-align: center">
+                      Error
+                    </h1>
+                  </div>
                   <h2 class="rainbow">
                     anything; something; nothing; everything;
                   </h2>
@@ -498,7 +514,6 @@
                     <br />
                     <a href="./snake/index.html"> More! </a>
                   </p>
-                  <a id="number" style="color: white">ERROR</a>
                 </div>
               </li>
             </ul>
