@@ -34,9 +34,20 @@ window.addEventListener("mousemove", function (e) {
 });
 
 function moveCircle() {
+  var container = document.getElementById("funContainer");
+  var containerWidth = container.clientWidth / 2;
+  var containerHeight = container.clientHeight / 2;
   var time = Date.now() / 100;
-  yp = mouseY + 400 + Math.sin(time) * 50 + Math.sin(time * 2) * 20;
-  xp = mouseX + 765 + Math.cos(time * 0.5) * 50 + Math.cos(time * 1.5) * 20;
+  yp =
+    mouseY +
+    containerHeight +
+    Math.sin(time) * 2 * 50 +
+    Math.sin(time * 2) * 20;
+  xp =
+    mouseX +
+    containerWidth +
+    Math.cos(time * 0.5) * 4 * 50 +
+    Math.cos(time * 1.5) * 20;
   requestAnimationFrame(moveCircle);
 }
 
