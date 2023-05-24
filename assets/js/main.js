@@ -109,7 +109,7 @@ var timeout = function () {
 timer = setTimeout(timeout, 100);
 window.onmousemove = function (event) {
   var subtracter = window.innerWitdh / 4;
-  mouseX = event.clientX - window.innerWidth / 2;// - subtracter;
+  mouseX = event.clientX - subtracter - window.innerWidth / 2;// - subtracter;
   mouseY = event.clientY - window.innerHeight / 2;
   clearTimeout(timer);
   infiniteLoop = false;
