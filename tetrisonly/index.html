@@ -250,6 +250,38 @@ function loop() {
         tetromino.row--;
         placeTetromino();
       }
+      while(true)
+    {
+     let clearTetri = tetrimino;
+      
+    const row = clearTetri.row + 1;
+    if (!isValidMove(clearTetri.matrix, row, clearTetri.col)) {
+      score++;
+      clearTetri.row = row - 1;
+      for (let row = 0; row < clearTetri.matrix.length; row++) {
+      for (let col = 0; col < clearTetri.matrix[row].length; col++) {
+        if (clearTetri.matrix[row][col]) {
+
+          // drawing 1 px smaller than the grid creates a grid effect
+          context.fillRect((clearTetri.col + col) * grid, (clearTetri.row + row) * grid, grid-1, grid-1);
+        }
+      }
+    }
+      return;
+    }
+    clearTetri.row = row;
+    for (let row = 0; row < clearTetri.matrix.length; row++) {
+      for (let col = 0; col < clearTetri.matrix[row].length; col++) {
+        if (clearTetri.matrix[row][col]) {
+
+          // drawing 1 px smaller than the grid creates a grid effect
+          context.fillRect((clearTetri.col + col) * grid, (clearTetri.row + row) * grid, grid-1, grid-1);
+        }
+      }
+    }
+
+  }
+      
     }
 
     context.fillStyle = colors[tetromino.name];
@@ -288,7 +320,8 @@ document.addEventListener('keydown', function(e) {
       tetromino.matrix = matrix;
     }
   }
-
+  
+  //space down key to hard drop the peice 
   if (e.which === 32) {
     while(true)
     {
