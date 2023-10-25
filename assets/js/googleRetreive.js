@@ -7,8 +7,14 @@ const url = `https://sheets.googleapis.com/v4/spreadsheets/${sheetId}/values/${s
 fetch(url)
   .then((response) => response.json())
   .then((data) => {
-    data.values.forEach((row) => {
+    data.values.forEach((row, index) => {
       h1 = document.getElementById("data");
-      h1.innerHTML = "GPAT: " + row[0] + " GAAT: " + row[1];
+      if (row[0] !== undefined) {
+        if (index === 0) {
+          h1.innerHTML = "GPAT: " + row[0];
+        } else if (index === 1) {
+          h1.innerHTML += " GAAT: " + row[0];
+        }
+      }
     });
   });
