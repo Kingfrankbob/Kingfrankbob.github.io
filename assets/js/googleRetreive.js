@@ -7,14 +7,13 @@ const url = `https://sheets.googleapis.com/v4/spreadsheets/${sheetId}/values/${s
 fetch(url)
   .then((response) => response.json())
   .then((data) => {
-    data.values.forEach((row, index) => {
-      h1 = document.getElementById("data");
-      if (row[0] !== undefined) {
-        if (index === 0) {
-          h1.innerHTML = "GPAT: " + row[0];
-        } else if (index === 1) {
-          h1.innerHTML += " GAAT: " + row[0];
-        }
-      }
-    });
+    const h1 = document.getElementById("data");
+    const gaatValue = parseFloat(data.values[0][0]);
+    const gpatValue = parseFloat(data.values[1][0]);
+
+    if (!isNaN(gpatValue) && !isNaN(gaatValue)) {
+      h1.innerHTML = "GAAT: " + gaatValue + " GPAT: " + gpatValue;
+    } else {
+      h1.innerHTML = "Data is not valid";
+    }
   });
