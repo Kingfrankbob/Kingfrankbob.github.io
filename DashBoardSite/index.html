@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" type="image/x-icon" href="favicon.ico">
+    <title> Pool Dashboard</title>
+    <link rel="stylesheet" href="https://code.jquery.com/ui/1.10.2/themes/smoothness/jquery-ui.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link rel="stylesheet" href="style.css">
+    <script src="https://code.jquery.com/jquery-1.9.1.js"></script>
+    <script src="https://code.jquery.com/ui/1.10.2/jquery-ui.js"></script>
+    <style>
+
+    </style>
+</head>
+
+<body>
+    <div class="page1">
+        <div class="page1-top-section page1">
+            <div class="card">
+                <div class="card-value" id="card1-value">100</div>
+                <div class="card-heading" id="card1-heading">KPI 1</div>
+            </div>
+            <div class="card">
+                <div class="card-value" id="card2-value">200</div>
+                <div class="card-heading" id="card2-heading">KPI 2</div>
+            </div>
+            <div class="card">
+                <div class="card-value-large" id="card3-value">300</div>
+                <div class="card-heading" id="card3-heading">KPI 3</div>
+            </div>
+            <div class="card">
+                <div class="card-value" id="card4-value">400</div>
+                <div class="card-heading" id="card4-heading">KPI 4</div>
+            </div>
+            <div class="card">
+                <div class="card-value" id="card5-value">500</div>
+                <div class="card-heading" id="card5-heading">KPI 5</div>
+            </div>
+            <div class="card">
+                <div class="card-value" id="card6-value">600</div>
+                <div class="card-heading" id="card6-heading">KPI 6</div>
+            </div>
+            <div class="card">
+                <div class="card-value" id="card7-value">700</div>
+                <div class="card-heading" id="card7-heading">KPI 7</div>
+            </div>
+        </div>
+
+        <div class="page1-middle-section page1">
+            <div class="graph-container-mid">
+                <canvas id="airGraph" class="graph"></canvas>
+            </div>
+            <div class="graph-container-mid">
+                <canvas id="poolGraph"></canvas>
+            </div>
+        </div>
+
+        <div class="page1-bottom-section page1">
+            <div class="graph-container-full">
+                <canvas id="bothGraph"></canvas>
+            </div>
+            <div class="buttons-section">
+                <button class="button-29" role="button" onclick="getData()">Get Data</button>
+                <button class="button-29" role="button" onclick="inDepth()">In Depth View</button>
+                <button class="button-29" role="button" onclick="resetSlider('main-page-slider')"
+                    style="width: 30px; height: 30px; padding: 0px; font-size: 10px; margin-top: 5px; margin-bottom: 5px;">
+                    <i class="fas fa-redo-alt"></i>
+                </button>
+                <div class="center">
+                    <p>
+                        <label for="main-page-slider-Display" class="center">Date range:</label>
+                        <input type="text" id="main-page-slider-Display" readonly class="center" size="30px" />
+                    </p>
+                    <div id="main-page-slider" class="sized"></div>
+                </div>
+                <br>
+            </div>
+        </div>
+    </div>
+
+    <div class="page2">
+        <div class="page2-sec fadedown">
+            <div class="graph-container-overhalf">
+                <canvas id="allAirGraph"></canvas>
+            </div>
+        </div>
+        <div class="page2-mid fademid">
+            <button class="button-29 button-extra" onclick="getData()">Get Data</button>
+            <div class="slider-section">
+                <p>
+                    <label for="in-depth-slider-Display" class="center">Date range:</label>
+                    <input type="text" id="in-depth-slider-Display" readonly class="center" size="30px" />
+                </p>
+                <div id="in-depth-slider" style="width: 300px;"></div>
+                <button class="button-29" role="button" onclick="resetSlider('in-depth-slider')"
+                    style="width: 30px; height: 30px; padding: 0px; font-size: 10px; margin-top: 5px; margin-bottom: 5px;">
+                    <i class="fas fa-redo-alt"></i>
+                </button>
+                <br>
+            </div>
+            <button class="button-29 button-extra" onclick="goBack()">Back to Main Page</button>
+        </div>
+        <div class="page2-sec fadeup">
+            <div class="graph-container-overhalf">
+                <canvas id="allPoolGraph"></canvas>
+            </div>
+        </div>
+    </div>
+
+
+
+
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="main.js"></script>
+</body>
+
+</html>
