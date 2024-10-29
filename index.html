@@ -1,0 +1,418 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <title>Michael's Site</title>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="description" content="A website for Michael Cragun" />
+  <meta name="keywords" content="kingfrankbob, retroracer, mandelbrot, custom, cool, Em See" />
+  <meta name="Michael Cragun" content="Portfolio" />
+  <link rel="stylesheet" href="assets/css/main.css" />
+  <link rel="stylesheet" type="text/css" href="./assets/css/buttonStyle.css" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" />
+  <script src="https://apis.google.com/js/api.js"></script>
+  <script src="./assets/js/googleRetreive.js"></script>
+  <!-- <script src="https://docs.google.com/spreadsheets/d/e/2PACX-1vQrkYKmmUDi_7_MOAJ1mbUAgL5F5JNahdcriOo3iOPV2ToqNAQfhjADcthVw6gi8689QcE5CKEVwOft/pub?gid=688587437&single=true&range=b4&output=csv"></script> -->
+  <link rel="icon" href="assets/img/webIcon.png" type="image/x-icon" />
+</head>
+
+<body>
+  <div class="device-notification">
+    <a class="device-notification--logo" href="#0">
+      <img src="assets/img/logo.png" alt="Global" />
+      <p>Michael's Site</p>
+    </a>
+    <p class="device-notification--message">
+      Github has so much to offer that we must request you orient your device
+      to portrait or find a larger screen. You won't be disappointed.
+    </p>
+  </div>
+
+  <div class="perspective effect-rotate-left">
+    <div class="container">
+      <div class="outer-nav--return"></div>
+      <div id="viewport" class="l-viewport">
+        <canvas id="myCanvas"
+          style="position: absolute; top: 0; left: 0; z-index: -1; width:100vw; height:100vh;"></canvas>
+
+        <div class="l-wrapper">
+          <header class="header">
+            <a class="header--logo" href="#0">
+              <img src="assets/img/logo.png" alt="Kingfrankbobs" />
+              <p>Michael's Page</p>
+            </a>
+            <button class="header--cta cta" onclick="window.location.href='https://github.com/Kingfrankbob/';">
+              Check It All Out!
+            </button>
+            <div class="header--nav-toggle">
+              <span></span>
+            </div>
+          </header>
+          <nav class="l-side-nav">
+            <ul class="side-nav">
+              <li class="is-active"><span>Home</span></li>
+              <li><span>Works</span></li>
+              <li><span>About</span></li>
+              <li><span>Contact</span></li>
+              <li id="funpage"><span>Fun Stuff</span></li>
+            </ul>
+          </nav>
+          <ul class="l-main-content main-content">
+            <li class="l-section section section--is-active">
+              <div class="intro">
+                <div class="intro--banner">
+                  <h1>
+                    Welcome, I'm <br />
+                    Michael Cragun
+                  </h1>
+                  <a href="https://github.com/Kingfrankbob?tab=repositories" style="color: aliceblue">
+                    <button class="cta">
+                      Go to Repo Page
+                      <svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg"
+                        xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 150 118"
+                        style="enable-background: new 0 0 150 118" xml:space="preserve">
+                        <g transform="translate(0.000000,118.000000) scale(0.100000,-0.100000)">
+                          <path
+                            d="M870,1167c-34-17-55-57-46-90c3-15,81-100,194-211l187-185l-565-1c-431,0-571-3-590-13c-55-28-64-94-18-137c21-20,33-20,597-20h575l-192-193C800,103,794,94,849,39c20-20,39-29,61-29c28,0,63,30,298,262c147,144,272,271,279,282c30,51,23,60-219,304C947,1180,926,1196,870,1167z" />
+                        </g>
+                      </svg>
+                      <span class="btn-background"></span>
+                    </button>
+                  </a>
+                  <img src="assets/img/introduction-visualone.png" alt="Welcome" />
+                </div>
+                <div class="intro--options">
+                  <a href="#0">
+                    <h3>What Languages?</h3>
+                    <p>
+                      I have worked in C++, C, C#, CSS, Html, Java, Js, Lua, SQL, KQL, Ts
+                      and Python.
+                    </p>
+                  </a>
+                  <a href="#0">
+                    <h3>Anything Professional?</h3>
+                    <p>
+                      I have taken some courses in the listed languages.
+                      I also work as a Server Developer
+                      in C#. I interned at Phillips 66 as a software engineer/developer in Python.
+                    </p>
+                  </a>
+                  <a href="#0">
+                    <h3>Me &amp; Others</h3>
+                    <p>
+                      I love getting input from others, and seeing what other
+                      people have to say, if you have any comments feel free
+                      to contact me somehow!
+                    </p>
+                  </a>
+                </div>
+              </div>
+            </li>
+            <li class="l-section section">
+              <div class="work">
+                <h2>Selected Works</h2>
+                <div class="work--lockup">
+                  <ul class="slider">
+                    <li class="slider--item slider--item-left">
+                      <a href="#0">
+                        <div class="slider--item-image">
+                          <img src="assets/img/RetroRacer.png" alt="Victory" />
+                        </div>
+                        <p class="slider--item-title">Retro Racer</p>
+                        <p class="slider--item-description">
+                          This is a simple unfinished racing game built in the
+                          console! The name is Retro-Racer! It has a track
+                          conversion from a picture, has a track selection,
+                          and even collision and speed! Written in C#;
+                          <a href="https://github.com/Kingfrankbob/Retro-Racer" style="color: cornflowerblue">Check it
+                            out</a>!
+                        </p>
+                      </a>
+                    </li>
+                    <li class="slider--item slider--item-center">
+                      <a href="#0">
+                        <div class="slider--item-image">
+                          <img src="assets/img/Mandelbrot.jpg" fit="contain" alt="MandelBrot" />
+                        </div>
+                        <p class="slider--item-title">
+                          MandelBrot Set &amp; Zoom
+                        </p>
+                        <p class="slider--item-description">
+                          This was a fun project to come around, it only zooms
+                          a small amount before it runs out of memory. It was
+                          a concept, and I hope to take it even further.
+                          Written in C++;
+                          <a href="https://github.com/Kingfrankbob/MandelBrot" style="color: cornflowerblue">
+                            Check it out</a>!
+                        </p>
+                      </a>
+                    </li>
+                    <li class="slider--item slider--item-right">
+                      <a href="#0">
+                        <div class="slider--item-image">
+                          <img src="assets/img/HilbertCurve.png" alt="Hilbert Curve" />
+                        </div>
+                        <p class="slider--item-title">
+                          Hilbert Curve &amp; With Graphics
+                        </p>
+                        <p class="slider--item-description">
+                          It took some time to get the alg just right. It
+                          draws it well for whatever iteration you choose! It
+                          was a challenge getting the old graphics library up
+                          and running, but definitely something to
+                          <a href="https://github.com/Kingfrankbob/Hilbert-Curve-C-w-Drawer"
+                            style="color: cornflowerblue">check out</a>! Written in C++
+                        </p>
+                      </a>
+                    </li>
+                  </ul>
+                  <div class="slider--prev">
+                    <svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg"
+                      xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 150 118"
+                      style="enable-background: new 0 0 150 118" xml:space="preserve">
+                      <g transform="translate(0.000000,118.000000) scale(0.100000,-0.100000)">
+                        <path d="M561,1169C525,1155,10,640,3,612c-3-13,1-36,8-52c8-15,134-145,281-289C527,41,562,10,590,10c22,0,41,9,61,29
+                    c55,55,49,64-163,278L296,510h575c564,0,576,0,597,20c46,43,37,109-18,137c-19,10-159,13-590,13l-565,1l182,180
+                    c101,99,187,188,193,199c16,30,12,57-12,84C631,1174,595,1183,561,1169z" />
+                      </g>
+                    </svg>
+                  </div>
+                  <div class="slider--next">
+                    <svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg"
+                      xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 150 118"
+                      style="enable-background: new 0 0 150 118" xml:space="preserve">
+                      <g transform="translate(0.000000,118.000000) scale(0.100000,-0.100000)">
+                        <path
+                          d="M870,1167c-34-17-55-57-46-90c3-15,81-100,194-211l187-185l-565-1c-431,0-571-3-590-13c-55-28-64-94-18-137c21-20,33-20,597-20h575l-192-193C800,103,794,94,849,39c20-20,39-29,61-29c28,0,63,30,298,262c147,144,272,271,279,282c30,51,23,60-219,304C947,1180,926,1196,870,1167z" />
+                      </g>
+                    </svg>
+                  </div>
+                </div>
+              </div>
+            </li>
+            <li class="l-section section">
+              <div class="about">
+                <div class="about--banner">
+                  <h2>So Many Things<br />To Do</h2>
+                  <a href="./projectsUpcoming/index.html">More info on my upcoming Projects!
+                    <span>
+                      <svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg"
+                        xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 150 118"
+                        style="enable-background: new 0 0 150 118" xml:space="preserve">
+                        <g transform="translate(0.000000,118.000000) scale(0.100000,-0.100000)">
+                          <path
+                            d="M870,1167c-34-17-55-57-46-90c3-15,81-100,194-211l187-185l-565-1c-431,0-571-3-590-13c-55-28-64-94-18-137c21-20,33-20,597-20h575l-192-193C800,103,794,94,849,39c20-20,39-29,61-29c28,0,63,30,298,262c147,144,272,271,279,282c30,51,23,60-219,304C947,1180,926,1196,870,1167z" />
+                        </g>
+                      </svg>
+                    </span>
+                  </a>
+                  <h2>Started and Not Finished?</h2>
+                  <a href="./projectsDone/index.html">Read more about all my Projects!
+                    <span>
+                      <svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg"
+                        xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 150 118"
+                        style="enable-background: new 0 0 150 118" xml:space="preserve">
+                        <g transform="translate(0.000000,118.000000) scale(0.100000,-0.100000)">
+                          <path
+                            d="M870,1167c-34-17-55-57-46-90c3-15,81-100,194-211l187-185l-565-1c-431,0-571-3-590-13c-55-28-64-94-18-137c21-20,33-20,597-20h575l-192-193C800,103,794,94,849,39c20-20,39-29,61-29c28,0,63,30,298,262c147,144,272,271,279,282c30,51,23,60-219,304C947,1180,926,1196,870,1167z" />
+                        </g>
+                      </svg>
+                    </span>
+                  </a>
+                  <img src="assets/img/about-visualone.png" alt="About Us" />
+                </div>
+              </div>
+            </li>
+            <li class="l-section section">
+              <div class="contact">
+                <div class="contact--lockup">
+                  <div class="modal">
+                    <div class="modal--information">
+                      <p>19.646314, -159.332432 (Please, do not visit, its my secret hideout!)</p>
+                      <!-- <a href="mailto:AJWpcc@gmail.com">AJWpcc@gmail.com</a>
+                      <a href="tel:+918840">No Phone Listed</a> -->
+                    </div>
+                    <ul class="modal--options">
+                      <li>
+                        <a href="https://www.facebook.com/profile.php?id=61568116851956">
+                          <button type="button" class="glow-on-hover">
+                            <img src="./assets/img/Faceboooook.png" class="socialMediaButtonFacebook" />
+                          </button>
+                        </a>
+                      </li>
+                      <li>
+                        <a href="mailto:AJWpcc@gmail.com" onclick="showMissionMessage()">
+                          <button type="button" class="glow-on-hover">
+                            <img src="./assets/img/mailIcon.png" class="socialMediaButtonMail" />
+                          </button>
+                        </a>
+                      </li>
+                      <li>
+                        <a href="https://github.com/Kingfrankbob" onclick="showMissionMessage()">
+                          <button type="button" class="glow-on-hover">
+                            <img src="./assets/img/githubIcon.png" class="socialMediaButtonGithub" />
+                          </button>
+                        </a>
+                      </li>
+                      <li>
+                        <a href="https://www.youtube.com/channel/UCU9WfSnJ3qo_04gxCqGyOyw"
+                          onclick="showMissionMessage()">
+                          <button type="button" class="glow-on-hover">
+                            <img src="./assets/img/YouTube-icon-SVG (1).png" class="socialMediaButtonGithub" />
+                          </button>
+                        </a>
+                      </li>
+                    </ul>
+                  </div>
+                </div>
+              </div>
+            </li>
+            <li class="l-section section" id="funContainer">
+              <div class="hire" id="newScript" onclick="onClick()">
+                <canvas class="confetti" id="canvas"></canvas>
+                <div class="circle"></div>
+                <div class="circle"></div>
+                <div class="circle"></div>
+                <div class="circle"></div>
+                <div class="circle"></div>
+                <div class="circle"></div>
+                <div class="circle"></div>
+                <div class="circle"></div>
+                <div class="circle"></div>
+                <div class="circle"></div>
+                <div class="circle"></div>
+                <div class="circle"></div>
+                <div class="circle"></div>
+                <div class="circle"></div>
+                <div class="circle"></div>
+                <div class="circle"></div>
+                <div class="circle"></div>
+                <div class="circle"></div>
+                <div class="circle"></div>
+                <div class="circle"></div>
+                <div class="circle"></div>
+                <div class="circle"></div>
+                <div class="circle"></div>
+                <div class="circle"></div>
+                <div class="circle"></div>
+                <div class="circle"></div>
+                <div class="circle"></div>
+                <div class="circle"></div>
+                <div class="circle"></div>
+                <div class="circle"></div>
+                <div class="circle"></div>
+                <div class="circle"></div>
+                <div class="circle"></div>
+                <div class="circle"></div>
+                <div class="circle"></div>
+                <div class="circle"></div>
+                <div class="circle"></div>
+                <div class="circle"></div>
+                <div class="circle"></div>
+                <div class="circle"></div>
+                <div class="circle"></div>
+                <div class="circle"></div>
+                <div class="circle"></div>
+                <div class="circle"></div>
+                <div class="circle"></div>
+                <div class="circle"></div>
+                <div class="circle"></div>
+                <div class="circle"></div>
+                <div class="circle"></div>
+                <div class="circle"></div>
+                <div class="circle"></div>
+                <div class="circle"></div>
+                <div class="circle"></div>
+                <div class="circle"></div>
+                <div class="circle"></div>
+                <div class="circle"></div>
+                <div class="circle"></div>
+                <div class="circle"></div>
+                <div class="circle"></div>
+                <div class="circle"></div>
+                <div class="circle"></div>
+                <div class="circle"></div>
+                <div class="circle"></div>
+                <div class="circle"></div>
+                <div class="circle"></div>
+                <div class="circle"></div>
+                <div class="circle"></div>
+                <div class="circle"></div>
+                <div class="circle"></div>
+                <div class="circle"></div>
+                <div class="circle"></div>
+                <div class="circle"></div>
+                <div class="circle"></div>
+                <div class="circle"></div>
+                <div class="circle"></div>
+                <div class="circle"></div>
+                <div class="circle"></div>
+                <div class="circle"></div>
+                <div class="circle"></div>
+                <div class="circle"></div>
+                <div class="circle"></div>
+                <div class="circle"></div>
+                <div class="circle"></div>
+                <div class="circle"></div>
+                <div class="circle"></div>
+                <div class="circle"></div>
+                <div class="circle"></div>
+                <div class="circle"></div>
+                <div class="circle"></div>
+                <div class="circle"></div>
+                <div class="circle"></div>
+                <div class="circle"></div>
+                <div class="circle"></div>
+                <div class="circle"></div>
+                <div class="circle"></div>
+                <div class="circle"></div>
+                <div id="sheet">
+                  <h1 id="data" style="color: white; text-align: center">
+                    Error
+                  </h1>
+                </div>
+                <h2 class="rainbow">
+                  anything; something; nothing; everything;
+                </h2>
+                <p style="text-align: center;">
+                  <a href="./tetrisonly/index.html">More!</a>
+                  <a id="clicks">0</a>
+                  <br />
+                  <a href="./snake/index.html"> Even More! </a>
+                  <br>
+                  <a href="./DashBoardSite/index.html"> Exacerbatingly More! </a>
+                </p>
+              </div>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </div>
+    <ul class="outer-nav">
+      <li class="is-active">Home</li>
+      <li>Works</li>
+      <li>About</li>
+      <li>Contact</li>
+      <li>Fun Stuff</li>
+    </ul>
+  </div>
+
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.4/jquery.min.js"></script>
+  <script>
+    window.jQuery ||
+      document.write(
+        '<script src="assets/js/vendor/jquery-2.2.4.min.js"><\/script>'
+      );
+  </script>
+  <script src="assets/js/functions-min.js"></script>
+  <script src="./assets/js/main.js"></script>
+  <script>
+    function copyText() {
+      navigator.clipboard.writeText("MesaDePrimos#8501");
+    }
+  </script>
+</body>
+
+</html>
