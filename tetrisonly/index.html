@@ -2,7 +2,7 @@
 <html>
 
 <head>
-  <title></title>
+  <title>Tetris is Amazing!!!</title>
   <style>
     html,
     body {
@@ -25,31 +25,122 @@
     p {
       color: white;
       font-family: sans-serif;
+    }
 
+    #hold {
+      border: 1px solid white;
+      margin-bottom: 10px;
+    }
+
+    #preview {
+      border: 1px solid white;
+    }
+
+    .container {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      margin-left: 20px;
+    }
+
+    #instructions {
+      color: aliceblue;
+      border: 1px solid white;
+      margin-right: 20px;
+    }
+
+    #restartButton {
+      position: absolute;
+      left: 50%;
+      top: 50%;
+      transform: translate(-25%, 40%);
+      padding: 10px 20px;
+      font-size: 18px;
+      color: white;
+      background-color: red;
+      border: none;
+      border-radius: 5px;
+      display: none;
+      /* Hide initially */
     }
   </style>
 </head>
 
 <body>
-  <p>The controls are:<br>Space for hard drop<br>Up arrow to rotate<br>Down arrow for soft drop<br>Left and Right arrow
-    keys to move accordingly</p>
+  <p id="instructions">The controls are:<br>Space for hard drop<br>Up arrow to rotate<br>Down arrow for soft
+    drop<br>Left and Right arrow
+    keys<br>to move accordingly<br>
+    'c' key to hold pieces<br><br>
+    Score: <span id="score">0</span></p>
   <canvas width="320" height="640" id="game"></canvas>
+  <button id="restartButton">Restart Game</button>
+  <div class="container">
+    <canvas width="100" height="100" id="hold"></canvas>
+    <canvas width="100" height="310" id="preview"></canvas>
+  </div>
+
   <script>
+    const previewCanvas = document.getElementById('preview');
+    const previewContext = previewCanvas.getContext('2d');
+    const scoreDisplay = document.getElementById('score');
+
+    const holdCanvas = document.getElementById('hold');
+    const holdContext = holdCanvas.getContext('2d');
+    let holdPiece = null;
+    let hasHeld = false;
+
     function getRandomInt(min, max) {
       min = Math.ceil(min);
       max = Math.floor(max);
 
       return Math.floor(Math.random() * (max - min + 1)) + min;
     }
-    function generateSequence() {
-      const sequence = ['I', 'J', 'L', 'O', 'S', 'T', 'Z'];
 
-      while (sequence.length) {
-        const rand = getRandomInt(0, sequence.length - 1);
-        const name = sequence.splice(rand, 1)[0];
-        tetrominoSequence.push(name);
+    function drawHold() {
+      holdContext.clearRect(0, 0, holdCanvas.width, holdCanvas.height);
+      if (!holdPiece) return;
+
+      const matrix = tetrominos[holdPiece];
+      holdContext.fillStyle = colors[holdPiece];
+
+      for (let row = 0; row < matrix.length; row++) {
+        for (let col = 0; col < matrix[row].length; col++) {
+          if (matrix[row][col]) {
+            holdContext.fillRect(col * grid / 2 + 20, row * grid / 2 + 20, grid / 2 - 1, grid / 2 - 1);
+          }
+        }
       }
     }
+
+    function generateSequence() {
+      if (tetrominoSequence.length < 7) {
+        const sequence = ['I', 'J', 'L', 'O', 'S', 'T', 'Z'];
+
+        if (canClearTetris() && !tetrominoSequence.includes('I')) {
+          sequence.push('I');
+        }
+
+        while (sequence.length) {
+          const rand = getRandomInt(0, sequence.length - 1);
+          const name = sequence.splice(rand, 1)[0];
+          tetrominoSequence.push(name);
+        }
+      }
+
+      while (tetrominoSequence.length < 7) {
+        tetrominoSequence.append(['I', 'J', 'L', 'O', 'S', 'T', 'Z'][getRandomInt(0, 6)]);
+      }
+    }
+
+    function canClearTetris() {
+      for (let row = playfield.length - 1; row >= 0; row--) {
+        if (playfield[row].every(cell => !!cell)) {
+          return playfield.slice(row - 3, row + 1).every(r => r.every(cell => !!cell));
+        }
+      }
+      return false;
+    }
+
 
     function getNextTetromino() {
       if (tetrominoSequence.length === 0) {
@@ -98,37 +189,45 @@
 
     // place the tetromino on the playfield
     function placeTetromino() {
+      let rowsCleared = 0;
+
       for (let row = 0; row < tetromino.matrix.length; row++) {
         for (let col = 0; col < tetromino.matrix[row].length; col++) {
           if (tetromino.matrix[row][col]) {
-
-            // game over if piece has any part offscreen
             if (tetromino.row + row < 0) {
               return showGameOver();
             }
-
             playfield[tetromino.row + row][tetromino.col + col] = tetromino.name;
           }
         }
       }
 
-      // check for line clears starting from the bottom and working our way up
       for (let row = playfield.length - 1; row >= 0;) {
         if (playfield[row].every(cell => !!cell)) {
-
-          // drop every row above this one
+          rowsCleared++;
           for (let r = row; r >= 0; r--) {
             for (let c = 0; c < playfield[r].length; c++) {
               playfield[r][c] = playfield[r - 1][c];
             }
           }
-        }
-        else {
+        } else {
           row--;
         }
       }
 
+      if (rowsCleared === 4) {
+        score += 2000; // Bonus for Tetris
+      } else {
+        score += rowsCleared * 500;
+      }
+
+      updateScore();
       tetromino = getNextTetromino();
+      hasHeld = false;
+    }
+
+    function updateScore() {
+      scoreDisplay.textContent = `Score: ${score}`;
     }
 
     function placeTetrominoGhost() {
@@ -150,7 +249,6 @@
         }
       }
 
-      // Place the ghost piece on the ghost playfield
       for (let row = 0; row < ghostTetromino.matrix.length; row++) {
         for (let col = 0; col < ghostTetromino.matrix[row].length; col++) {
           if (ghostTetromino.matrix[row][col]) {
@@ -161,7 +259,6 @@
     }
 
 
-    // show the game over screen
     function showGameOver() {
       cancelAnimationFrame(rAF);
       gameOver = true;
@@ -175,21 +272,51 @@
       context.font = '36px monospace';
       context.textAlign = 'center';
       context.textBaseline = 'middle';
-      context.fillText('GAME OVER! ' + (score * 500), canvas.width / 2, canvas.height / 2);
+      context.fillText('GAME OVER!', canvas.width / 2, canvas.height / 2);
+
+      const restartButton = document.getElementById('restartButton');
+      restartButton.style.display = 'block'; // Show the button
     }
+
+
+    function swapHold() {
+      if (hasHeld) return;
+
+      // Temporarily store the current tetromino name and matrix
+      const currentName = tetromino.name;
+      const currentMatrix = tetromino.matrix;
+
+      if (holdPiece) {
+        // If there's already a piece in hold, swap it with the current piece
+        tetromino = {
+          name: holdPiece,
+          matrix: tetrominos[holdPiece],
+          row: -2, // Start at the top
+          col: Math.floor(playfield[0].length / 2) - 1 // Center column
+        };
+        holdPiece = currentName; // Move current piece to hold
+      } else {
+        // If no piece in hold, set the current piece to hold and get a new piece
+        holdPiece = currentName;
+        tetromino = getNextTetromino();
+      }
+
+      // Mark that hold has been used for this placement
+      hasHeld = true;
+      drawHold();
+    }
+
+
+
 
     const canvas = document.getElementById('game');
     const context = canvas.getContext('2d');
     const grid = 32;
     const tetrominoSequence = [];
     let score = 0;
-
-    // keep track of what is in every cell of the game using a 2d array
-    // tetris playfield is 10x20, with a few rows offscreen
     const playfield = [];
     const playfieldghost = [];
 
-    // populate the empty state
     for (let row = -2; row < 20; row++) {
       playfield[row] = [];
       playfieldghost[row] = [];
@@ -200,7 +327,6 @@
       }
     }
 
-    // how to draw each tetromino
     // @see https://tetris.fandom.com/wiki/SRS
     const tetrominos = {
       'I': [
@@ -240,7 +366,6 @@
       ]
     };
 
-    // color of each tetromino
     const colors = {
       'I': 'cyan',
       'O': 'yellow',
@@ -254,49 +379,57 @@
     let count = 0;
     let tetromino = getNextTetromino();
     // let ghosttetromino = tetromino;
-    let rAF = null;  // keep track of the animation frame so we can cancel it
+    let rAF = null;
     let gameOver = false;
 
-    // game loop
+    function drawPreview() {
+      previewContext.clearRect(0, 0, previewCanvas.width, previewCanvas.height);
+      for (let i = 0; i < tetrominoSequence.length; i++) {
+        const name = tetrominoSequence[tetrominoSequence.length - 1 - i];
+        const matrix = tetrominos[name];
+        previewContext.fillStyle = colors[name];
+        for (let row = 0; row < matrix.length; row++) {
+          for (let col = 0; col < matrix[row].length; col++) {
+            if (matrix[row][col]) {
+              previewContext.fillRect(col * grid / 2 + 20, (row * grid / 2 + i * 60) + 20, grid / 2 - 1, grid / 2 - 1);
+            }
+          }
+        }
+      }
+    }
+
     function loop() {
       rAF = requestAnimationFrame(loop);
       context.clearRect(0, 0, canvas.width, canvas.height);
+      generateSequence();
+      drawPreview();
 
-      // draw the playfield
       for (let row = 0; row < 20; row++) {
         for (let col = 0; col < 10; col++) {
           if (playfield[row][col]) {
             const name = playfield[row][col];
             context.fillStyle = colors[name];
 
-            // drawing 1 px smaller than the grid creates a grid effect
             context.fillRect(col * grid, row * grid, grid - 1, grid - 1);
           }
           if (playfieldghost[row][col]) {
             context.fillStyle = "white";
             context.globalAlpha = 0.5;
             const name = playfieldghost[row][col];
-            // context.fillStyle = colors[name];
-            // console.log("Drawing ghost");
             context.fillRect(col * grid, row * grid, grid - 1, grid - 1);
             context.globalAlpha = 1;
           }
         }
       }
 
-
-      // draw the active tetromino
       if (tetromino) {
 
-
-        // tetromino falls every 35 frames
         if (++count > 35) {
           tetromino.row++;
           count = 0;
 
-          // place piece if it runs into anything
           if (!isValidMove(tetromino.matrix, tetromino.row, tetromino.col)) {
-            score++;
+            score += 100;
             tetromino.row--;
             placeTetromino();
           }
@@ -307,8 +440,6 @@
         for (let row = 0; row < tetromino.matrix.length; row++) {
           for (let col = 0; col < tetromino.matrix[row].length; col++) {
             if (tetromino.matrix[row][col]) {
-
-              // drawing 1 px smaller than the grid creates a grid effect
               context.fillRect((tetromino.col + col) * grid, (tetromino.row + row) * grid, grid - 1, grid - 1);
             }
           }
@@ -317,7 +448,8 @@
       }
     }
 
-    // listen to keyboard events to move the active tetromino
+
+
     document.addEventListener('keydown', function (e) {
       if (gameOver) return;
 
@@ -330,6 +462,10 @@
         if (isValidMove(tetromino.matrix, tetromino.row, col)) {
           tetromino.col = col;
         }
+      }
+
+      if (e.which === 67) { // "C" key for hold
+        swapHold();
       }
 
       // up arrow key (rotate)
@@ -345,7 +481,7 @@
         while (true) {
           const row = tetromino.row + 1;
           if (!isValidMove(tetromino.matrix, row, tetromino.col)) {
-            score++;
+            score += 100;
             tetromino.row = row - 1;
             placeTetromino();
             return;
@@ -360,7 +496,7 @@
         const row = tetromino.row + 1;
 
         if (!isValidMove(tetromino.matrix, row, tetromino.col)) {
-          score++;
+          score += 100;
           tetromino.row = row - 1;
           placeTetromino();
           return;
@@ -369,7 +505,29 @@
       }
     });
 
-    // start the game
+    function restartGame() {
+      score = 0;
+      scoreDisplay.textContent = `Score: ${score}`;
+      gameOver = false;
+
+      for (let row = 0; row < playfield.length; row++) {
+        playfield[row].fill(0);
+        playfieldghost[row].fill(0);
+      }
+
+      tetrominoSequence.length = 0; // Clear the sequence
+      tetromino = getNextTetromino(); // Start a new game
+      drawHold(); // Clear hold display
+
+      const restartButton = document.getElementById('restartButton');
+      restartButton.style.display = 'none'; // Hide the button
+
+      loop();
+    }
+
+    document.getElementById('restartButton').addEventListener('click', restartGame);
+
+
     rAF = requestAnimationFrame(loop);
   </script>
 </body>
