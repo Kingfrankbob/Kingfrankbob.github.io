@@ -414,7 +414,7 @@ function showPersistentMissionMessage() {
   messageBox.style.padding = "10px 20px";
   messageBox.style.backgroundColor = "#FFFAE5";
   messageBox.style.color = "#444";
-  messageBox.style.fontSize = "12px";
+  messageBox.style.fontSize = "14px";
   messageBox.style.border = "1px solid #DDD";
   messageBox.style.borderRadius = "5px";
   messageBox.style.zIndex = "1000";
