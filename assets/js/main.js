@@ -429,5 +429,3 @@ function showPersistentMissionMessage() {
 
   document.body.appendChild(messageBox);
 }
-
-showPersistentMissionMessage();
