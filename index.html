@@ -2,419 +2,294 @@
 <html lang="en">
 
 <head>
-  <title>Michael's Site</title>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-  <meta name="description" content="A website for Michael Cragun" />
-  <meta name="keywords" content="kingfrankbob, retroracer, mandelbrot, custom, cool, Em See" />
-  <meta name="Michael Cragun" content="Portfolio" />
-  <link rel="stylesheet" href="assets/css/main.css" />
-  <link rel="stylesheet" type="text/css" href="./assets/css/buttonStyle.css" />
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" />
-  <script src="https://apis.google.com/js/api.js"></script>
-  <script src="./assets/js/googleRetreive.js"></script>
-  <!-- <script src="https://docs.google.com/spreadsheets/d/e/2PACX-1vQrkYKmmUDi_7_MOAJ1mbUAgL5F5JNahdcriOo3iOPV2ToqNAQfhjADcthVw6gi8689QcE5CKEVwOft/pub?gid=688587437&single=true&range=b4&output=csv"></script> -->
-  <link rel="icon" href="assets/img/webIcon.png" type="image/x-icon" />
+    <title>Michael's Site</title>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="description" content="Michael Cragun's portfolio and projects" />
+    <link rel="stylesheet" href="assets/css/main.css" />
+    <link rel="stylesheet" href="assets/css/site-refresh.css" />
+    <link rel="stylesheet" href="assets/css/buttonStyle.css" />
+    <link rel="icon" href="assets/img/webIcon.png" type="image/x-icon" />
 </head>
 
-<body>
-  <div class="device-notification">
-    <a class="device-notification--logo" href="#0">
-      <img src="assets/img/logo.png" alt="Global" />
-      <p>Michael's Site</p>
-    </a>
-    <p class="device-notification--message">
-      Github has so much to offer that we must request you orient your device
-      to portrait or find a larger screen. You won't be disappointed.
-    </p>
-  </div>
-
-  <div class="perspective effect-rotate-left">
-    <div class="container">
-      <div class="outer-nav--return"></div>
-      <div id="viewport" class="l-viewport">
-        <canvas id="myCanvas"
-          style="position: absolute; top: 0; left: 0; z-index: -1; width:100vw; height:100vh;"></canvas>
-
-        <div class="l-wrapper">
-          <header class="header">
-            <a class="header--logo" href="#0">
-              <img src="assets/img/logo.png" alt="Kingfrankbobs" />
-              <p>Michael's Page</p>
-            </a>
-            <button class="header--cta cta" onclick="window.location.href='https://github.com/Kingfrankbob/';">
-              Check It All Out!
-            </button>
-            <div class="header--nav-toggle">
-              <span></span>
-            </div>
-          </header>
-          <nav class="l-side-nav">
-            <ul class="side-nav">
-              <li class="is-active"><span>Home</span></li>
-              <li><span>Works</span></li>
-              <li><span>About</span></li>
-              <li><span>Contact</span></li>
-              <li id="funpage"><span>Fun Stuff</span></li>
-            </ul>
-          </nav>
-          <ul class="l-main-content main-content">
-            <li class="l-section section section--is-active">
-              <div class="intro">
-                <div class="intro--banner">
-                  <h1>
-                    Welcome, I'm <br />
-                    Michael Cragun
-                  </h1>
-                  <a href="https://github.com/Kingfrankbob?tab=repositories" style="color: aliceblue">
-                    <button class="cta">
-                      Go to Repo Page
-                      <svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg"
-                        xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 150 118"
-                        style="enable-background: new 0 0 150 118" xml:space="preserve">
-                        <g transform="translate(0.000000,118.000000) scale(0.100000,-0.100000)">
-                          <path
-                            d="M870,1167c-34-17-55-57-46-90c3-15,81-100,194-211l187-185l-565-1c-431,0-571-3-590-13c-55-28-64-94-18-137c21-20,33-20,597-20h575l-192-193C800,103,794,94,849,39c20-20,39-29,61-29c28,0,63,30,298,262c147,144,272,271,279,282c30,51,23,60-219,304C947,1180,926,1196,870,1167z" />
-                        </g>
-                      </svg>
-                      <span class="btn-background"></span>
-                    </button>
-                  </a>
-                  <img src="assets/img/introduction-visualone.png" alt="Welcome" />
-                </div>
-                <div class="intro--options">
-                  <a href="#0">
-                    <h3>What Languages?</h3>
-                    <p>
-                      I have worked in C++, C, C#, CSS, Html, Java, Js, Lua, SQL, KQL, Ts
-                      and Python.
-                    </p>
-                  </a>
-                  <a href="#0">
-                    <h3>Anything Professional?</h3>
-                    <p>
-                      I have taken some courses in the listed languages.
-                      I also work as a Server Developer
-                      in C#. I interned at Phillips 66 as a software engineer/developer in Python.
-                    </p>
-                  </a>
-                  <a href="#0">
-                    <h3>Me &amp; Others</h3>
-                    <p>
-                      I love getting input from others, and seeing what other
-                      people have to say, if you have any comments feel free
-                      to contact me somehow!
-                    </p>
-                  </a>
-                </div>
-              </div>
-            </li>
-            <li class="l-section section">
-              <div class="work">
-                <h2>Selected Works</h2>
-                <div class="work--lockup">
-                  <ul class="slider">
-                    <li class="slider--item slider--item-left">
-                      <a href="#0">
-                        <div class="slider--item-image">
-                          <img src="assets/img/RetroRacer.png" alt="Victory" />
+<body data-rotate-title="true">
+    <div class="perspective effect-rotate-left">
+        <div class="container">
+            <div class="outer-nav--return"></div>
+            <div id="viewport" class="l-viewport">
+                <canvas id="myCanvas" aria-hidden="true"></canvas>
+                <div class="l-wrapper">
+                    <header class="header">
+                        <a class="header--logo" id="logo-trigger" href="#0" aria-label="Michael's Site logo">
+                            <img src="assets/img/logo.png" alt="Michael's Site" />
+                        </a>
+                        <p class="header--title">Michael's Site</p>
+                        <button class="header--cta cta" type="button"
+                            onclick="window.location.href='https://github.com/Kingfrankbob/';">
+                            Check It All Out!
+                        </button>
+                        <div class="header--nav-toggle" role="button" tabindex="0" aria-label="Open navigation">
+                            <span></span>
                         </div>
-                        <p class="slider--item-title">Retro Racer</p>
-                        <p class="slider--item-description">
-                          This is a simple unfinished racing game built in the
-                          console! The name is Retro-Racer! It has a track
-                          conversion from a picture, has a track selection,
-                          and even collision and speed! Written in C#;
-                          <a href="https://github.com/Kingfrankbob/Retro-Racer" style="color: cornflowerblue">Check it
-                            out</a>!
-                        </p>
-                      </a>
-                    </li>
-                    <li class="slider--item slider--item-center">
-                      <a href="#0">
-                        <div class="slider--item-image">
-                          <img src="assets/img/Mandelbrot.jpg" fit="contain" alt="MandelBrot" />
-                        </div>
-                        <p class="slider--item-title">
-                          MandelBrot Set &amp; Zoom
-                        </p>
-                        <p class="slider--item-description">
-                          This was a fun project to come around, it only zooms
-                          a small amount before it runs out of memory. It was
-                          a concept, and I hope to take it even further.
-                          Written in C++;
-                          <a href="https://github.com/Kingfrankbob/MandelBrot" style="color: cornflowerblue">
-                            Check it out</a>!
-                        </p>
-                      </a>
-                    </li>
-                    <li class="slider--item slider--item-right">
-                      <a href="#0">
-                        <div class="slider--item-image">
-                          <img src="assets/img/HilbertCurve.png" alt="Hilbert Curve" />
-                        </div>
-                        <p class="slider--item-title">
-                          Hilbert Curve &amp; With Graphics
-                        </p>
-                        <p class="slider--item-description">
-                          It took some time to get the alg just right. It
-                          draws it well for whatever iteration you choose! It
-                          was a challenge getting the old graphics library up
-                          and running, but definitely something to
-                          <a href="https://github.com/Kingfrankbob/Hilbert-Curve-C-w-Drawer"
-                            style="color: cornflowerblue">check out</a>! Written in C++
-                        </p>
-                      </a>
-                    </li>
-                  </ul>
-                  <div class="slider--prev">
-                    <svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg"
-                      xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 150 118"
-                      style="enable-background: new 0 0 150 118" xml:space="preserve">
-                      <g transform="translate(0.000000,118.000000) scale(0.100000,-0.100000)">
-                        <path d="M561,1169C525,1155,10,640,3,612c-3-13,1-36,8-52c8-15,134-145,281-289C527,41,562,10,590,10c22,0,41,9,61,29
-                    c55,55,49,64-163,278L296,510h575c564,0,576,0,597,20c46,43,37,109-18,137c-19,10-159,13-590,13l-565,1l182,180
-                    c101,99,187,188,193,199c16,30,12,57-12,84C631,1174,595,1183,561,1169z" />
-                      </g>
-                    </svg>
-                  </div>
-                  <div class="slider--next">
-                    <svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg"
-                      xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 150 118"
-                      style="enable-background: new 0 0 150 118" xml:space="preserve">
-                      <g transform="translate(0.000000,118.000000) scale(0.100000,-0.100000)">
-                        <path
-                          d="M870,1167c-34-17-55-57-46-90c3-15,81-100,194-211l187-185l-565-1c-431,0-571-3-590-13c-55-28-64-94-18-137c21-20,33-20,597-20h575l-192-193C800,103,794,94,849,39c20-20,39-29,61-29c28,0,63,30,298,262c147,144,272,271,279,282c30,51,23,60-219,304C947,1180,926,1196,870,1167z" />
-                      </g>
-                    </svg>
-                  </div>
-                </div>
-              </div>
-            </li>
-            <li class="l-section section">
-              <div class="about">
-                <div class="about--banner">
-                  <h2>So Many Things<br />To Do</h2>
-                  <a href="./projectsUpcoming/index.html">More info on my upcoming Projects!
-                    <span>
-                      <svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg"
-                        xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 150 118"
-                        style="enable-background: new 0 0 150 118" xml:space="preserve">
-                        <g transform="translate(0.000000,118.000000) scale(0.100000,-0.100000)">
-                          <path
-                            d="M870,1167c-34-17-55-57-46-90c3-15,81-100,194-211l187-185l-565-1c-431,0-571-3-590-13c-55-28-64-94-18-137c21-20,33-20,597-20h575l-192-193C800,103,794,94,849,39c20-20,39-29,61-29c28,0,63,30,298,262c147,144,272,271,279,282c30,51,23,60-219,304C947,1180,926,1196,870,1167z" />
-                        </g>
-                      </svg>
-                    </span>
-                  </a>
-                  <h2>Started and Not Finished?</h2>
-                  <a href="./projectsDone/index.html">Read more about all my Projects!
-                    <span>
-                      <svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg"
-                        xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 150 118"
-                        style="enable-background: new 0 0 150 118" xml:space="preserve">
-                        <g transform="translate(0.000000,118.000000) scale(0.100000,-0.100000)">
-                          <path
-                            d="M870,1167c-34-17-55-57-46-90c3-15,81-100,194-211l187-185l-565-1c-431,0-571-3-590-13c-55-28-64-94-18-137c21-20,33-20,597-20h575l-192-193C800,103,794,94,849,39c20-20,39-29,61-29c28,0,63,30,298,262c147,144,272,271,279,282c30,51,23,60-219,304C947,1180,926,1196,870,1167z" />
-                        </g>
-                      </svg>
-                    </span>
-                  </a>
-                  <img src="assets/img/about-visualone.png" alt="About Us" />
-                </div>
-              </div>
-            </li>
-            <li class="l-section section">
-              <div class="contact">
-                <div class="contact--lockup">
-                  <div class="modal">
-                    <div class="modal--information">
-                      <p>19.646314, -159.332432 (Please, do not visit, its my secret hideout!)</p>
-                      <!-- <a href="mailto:AJWpcc@gmail.com">AJWpcc@gmail.com</a>
-                      <a href="tel:+918840">No Phone Listed</a> -->
+                    </header>
+                    <div class="side-nav" hidden aria-hidden="true">
+                        <div class="is-active"></div>
+                        <div></div>
+                        <div></div>
+                        <div></div>
+                        <div></div>
                     </div>
-                    <ul class="modal--options">
-                      <li>
-                        <a href="https://www.facebook.com/profile.php?id=61568116851956">
-                          <button type="button" class="glow-on-hover">
-                            <img src="./assets/img/Faceboooook.png" class="socialMediaButtonFacebook" />
-                          </button>
-                        </a>
-                      </li>
-                      <li>
-                        <a href="mailto:AJWpcc@gmail.com" onclick="showMissionMessage()">
-                          <button type="button" class="glow-on-hover">
-                            <img src="./assets/img/mailIcon.png" class="socialMediaButtonMail" />
-                          </button>
-                        </a>
-                      </li>
-                      <li>
-                        <a href="https://github.com/Kingfrankbob" onclick="showMissionMessage()">
-                          <button type="button" class="glow-on-hover">
-                            <img src="./assets/img/githubIcon.png" class="socialMediaButtonGithub" />
-                          </button>
-                        </a>
-                      </li>
-                      <li>
-                        <a href="https://www.youtube.com/channel/UCU9WfSnJ3qo_04gxCqGyOyw"
-                          onclick="showMissionMessage()">
-                          <button type="button" class="glow-on-hover">
-                            <img src="./assets/img/YouTube-icon-SVG (1).png" class="socialMediaButtonGithub" />
-                          </button>
-                        </a>
-                      </li>
-                    </ul>
-                  </div>
-                </div>
-              </div>
-            </li>
-            <li class="l-section section" id="funContainer">
-              <div class="hire" id="newScript" onclick="onClick()">
-                <canvas class="confetti" id="canvas"></canvas>
-                <div class="circle"></div>
-                <div class="circle"></div>
-                <div class="circle"></div>
-                <div class="circle"></div>
-                <div class="circle"></div>
-                <div class="circle"></div>
-                <div class="circle"></div>
-                <div class="circle"></div>
-                <div class="circle"></div>
-                <div class="circle"></div>
-                <div class="circle"></div>
-                <div class="circle"></div>
-                <div class="circle"></div>
-                <div class="circle"></div>
-                <div class="circle"></div>
-                <div class="circle"></div>
-                <div class="circle"></div>
-                <div class="circle"></div>
-                <div class="circle"></div>
-                <div class="circle"></div>
-                <div class="circle"></div>
-                <div class="circle"></div>
-                <div class="circle"></div>
-                <div class="circle"></div>
-                <div class="circle"></div>
-                <div class="circle"></div>
-                <div class="circle"></div>
-                <div class="circle"></div>
-                <div class="circle"></div>
-                <div class="circle"></div>
-                <div class="circle"></div>
-                <div class="circle"></div>
-                <div class="circle"></div>
-                <div class="circle"></div>
-                <div class="circle"></div>
-                <div class="circle"></div>
-                <div class="circle"></div>
-                <div class="circle"></div>
-                <div class="circle"></div>
-                <div class="circle"></div>
-                <div class="circle"></div>
-                <div class="circle"></div>
-                <div class="circle"></div>
-                <div class="circle"></div>
-                <div class="circle"></div>
-                <div class="circle"></div>
-                <div class="circle"></div>
-                <div class="circle"></div>
-                <div class="circle"></div>
-                <div class="circle"></div>
-                <div class="circle"></div>
-                <div class="circle"></div>
-                <div class="circle"></div>
-                <div class="circle"></div>
-                <div class="circle"></div>
-                <div class="circle"></div>
-                <div class="circle"></div>
-                <div class="circle"></div>
-                <div class="circle"></div>
-                <div class="circle"></div>
-                <div class="circle"></div>
-                <div class="circle"></div>
-                <div class="circle"></div>
-                <div class="circle"></div>
-                <div class="circle"></div>
-                <div class="circle"></div>
-                <div class="circle"></div>
-                <div class="circle"></div>
-                <div class="circle"></div>
-                <div class="circle"></div>
-                <div class="circle"></div>
-                <div class="circle"></div>
-                <div class="circle"></div>
-                <div class="circle"></div>
-                <div class="circle"></div>
-                <div class="circle"></div>
-                <div class="circle"></div>
-                <div class="circle"></div>
-                <div class="circle"></div>
-                <div class="circle"></div>
-                <div class="circle"></div>
-                <div class="circle"></div>
-                <div class="circle"></div>
-                <div class="circle"></div>
-                <div class="circle"></div>
-                <div class="circle"></div>
-                <div class="circle"></div>
-                <div class="circle"></div>
-                <div class="circle"></div>
-                <div class="circle"></div>
-                <div class="circle"></div>
-                <div class="circle"></div>
-                <div class="circle"></div>
-                <div class="circle"></div>
-                <div class="circle"></div>
-                <div class="circle"></div>
-                <div id="sheet">
-                  <h1 id="data" style="color: white; text-align: center">
-                    Error
-                  </h1>
-                </div>
-                <h2 class="rainbow">
-                  anything; something; nothing; everything;
-                </h2>
-                <p style="text-align: center;">
-                  <a href="./tetrisonly/index.html">More!</a>
-                  <a id="clicks">0</a>
-                  <br />
-                  <a href="./snake/index.html"> Some More! </a>
-                  <br>
-                  <a href="./DashBoardSite/index.html"> Even More! </a>
-                  <br>
-                  <a href="./schoolTracker/index.html"> A lot More! </a>
-                </p>
-              </div>
-            </li>
-          </ul>
-        </div>
-      </div>
-    </div>
-    <ul class="outer-nav">
-      <li class="is-active">Home</li>
-      <li>Works</li>
-      <li>About</li>
-      <li>Contact</li>
-      <li>Fun Stuff</li>
-    </ul>
-  </div>
+                    <ul class="l-main-content main-content">
+                        <li class="l-section section section--is-active">
+                            <div class="intro">
+                                <div class="intro--banner">
+                                    <h1>Welcome, I'm<br />Michael Cragun</h1>
+                                    <a href="https://github.com/Kingfrankbob?tab=repositories">
+                                        <button class="cta" type="button">Go to Repo Page<span
+                                                class="btn-background"></span></button>
+                                    </a>
+                                    <img src="assets/img/introduction-visualone.png"
+                                        alt="Abstract welcome illustration" />
+                                </div>
+                                <div class="intro--options">
+                                    <a href="#0">
+                                        <h3>Languages in my repositories</h3>
+                                        <p>Primary languages across public GitHub repositories</p>
+                                        <div class="language-list" id="github-languages" aria-live="polite">Loading
+                                            GitHub languages...</div>
+                                    </a>
+                                    <a href="#0">
+                                        <h3>Professional experience</h3>
+                                        <p>I have worked in various fields relating to technology, some of my experience
+                                            includes:
+                                            <ul>
+                                                <li>C# Server Developer</li>
+                                                <li>9 month internship at Phillips 66 as Back End Python and Front End
+                                                    Typescript Developer
+                                                </li>
+                                                <li>Civil Drafter for 2 months doing drafting and related tasks</li>
+                                            </ul>
+                                        </p>
+                                    </a>
+                                    <a href="#0">
+                                        <h3>Collaboration</h3>
+                                        <p>I welcome input and ideas. Visit the contact section if you would like to get
+                                            in touch. I am always interested in some work on games or new computer
+                                            algorithms
+                                            to spice up the place or the repositories...</p>
+                                    </a>
+                                </div>
+                            </div>
+                        </li>
+                        <li class="l-section section">
+                            <div class="work">
+                                <h2>Selected Works</h2>
+                                <div class="work--lockup">
+                                    <p class="github-status" id="github-status" aria-live="polite">Loading public
+                                        repositories...</p>
+                                    <div class="github-featured-grid" id="github-projects"></div>
+                                    <a class="github-link" href="https://github.com/Kingfrankbob?tab=repositories"
+                                        target="_blank" rel="noreferrer">Browse all repositories</a>
+                                </div>
+                            </div>
+                        </li>
+                        <li class="l-section section">
+                            <div class="about">
+                                <div class="about-profile">
+                                    <div class="about-copy">
+                                        <p class="about-eyebrow">A little about me</p>
+                                        <h2>Michael Cragun</h2>
+                                        <p id="about-description">I'm a software developer who enjoys building games,
+                                            tools, and experiments. Most of my work has focused in the area of Arduino
+                                            and the tools that you can create with it including but not limited to ESP
+                                            Wifi Modules, Data Loggers, MOSFETS and other control devices. I, along with
+                                            a very close person to me have been able to make systems
+                                            to alert when certain events happen, with websites that act as a front-end
+                                            hosted by the arduino itself. As for games, I have started a bunch, but have
+                                            never finished due to burnout.
+                                            I am currently an Assistant Engineer in the University of Oklahoma Game
+                                            Development Association and am looking to collaborate with the club to make
+                                            a game. </p>
+                                        <p>
+                                            Notable Accomplishments:
+                                        <ul>
+                                            <li>I served a 2 year mission for the Church of Jesus Christ of Latter-day
+                                                Saints in Phoenix, Arizona from 2024-2026</li>
+                                            <li>Valedictorian of my graduating class 24'</li>
+                                            <li>Completed a 9 month Internship with Phillips 66 doing full stack
+                                                development</li>
+                                            <li>I have created lots of little QOL improvement projects like a pool
+                                                controller, various data-loggers and automation systems.</li>
 
-  <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.4/jquery.min.js"></script>
-  <script>
-    window.jQuery ||
-      document.write(
-        '<script src="assets/js/vendor/jquery-2.2.4.min.js"><\/script>'
-      );
-  </script>
-  <script src="assets/js/functions-min.js"></script>
-  <script src="./assets/js/main.js"></script>
-  <script>
-    function copyText() {
-      navigator.clipboard.writeText("MesaDePrimos#8501");
-    }
-  </script>
+                                        </ul>
+                                        </p>
+                                        <a href="./projectsUpcoming/index.html">See what I'm exploring next</a>
+                                    </div>
+                                    <img class="about-portrait" src="assets/img/about-me.jpg"
+                                        alt="Portrait of Michael Cragun"
+                                        onerror="this.onerror=null;this.src='assets/img/about-visualone.jpg'" />
+                                </div>
+                            </div>
+                        </li>
+                        <li class="l-section section">
+                            <div class="contact">
+                                <div class="contact--lockup">
+                                    <div class="modal">
+                                        <div class="modal--information">
+                                            <p>19.646314, -159.332432 (Please, do not visit, its my secret hideout!)</p>
+                                        </div>
+                                        <ul class="modal--options">
+                                            <li>
+                                                <a href="https://www.facebook.com/profile.php?id=61568116851956">
+                                                    <button type="button" class="glow-on-hover" aria-label="Facebook">
+                                                        <img src="./assets/img/Faceboooook.png"
+                                                            class="socialMediaButtonFacebook" alt="Facebook" />
+                                                    </button>
+                                                </a>
+                                            </li>
+                                            <li>
+                                                <a href="mailto:AJWpcc@gmail.com" onclick="showMissionMessage()">
+                                                    <button type="button" class="glow-on-hover" aria-label="Email">
+                                                        <img src="./assets/img/mailIcon.png"
+                                                            class="socialMediaButtonMail" alt="Email" />
+                                                    </button>
+                                                </a>
+                                            </li>
+                                            <li>
+                                                <a href="https://github.com/Kingfrankbob"
+                                                    onclick="showMissionMessage()">
+                                                    <button type="button" class="glow-on-hover" aria-label="GitHub">
+                                                        <img src="./assets/img/githubIcon.png"
+                                                            class="socialMediaButtonGithub" alt="GitHub" />
+                                                    </button>
+                                                </a>
+                                            </li>
+                                            <li>
+                                                <a href="https://www.youtube.com/channel/UCU9WfSnJ3qo_04gxCqGyOyw"
+                                                    onclick="showMissionMessage()">
+                                                    <button type="button" class="glow-on-hover" aria-label="YouTube">
+                                                        <img src="./assets/img/YouTube-icon-SVG (1).png"
+                                                            class="socialMediaButtonGithub" alt="YouTube" />
+                                                    </button>
+                                                </a>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                        </li>
+                        <li class="l-section section" id="funContainer">
+                            <div class="hire" id="newScript">
+                                <h2 class="rainbow">A little room for play</h2>
+                                <div class="indicator-grid" aria-label="Key indicators">
+                                    <div class="indicator-card">
+                                        <span>GAAT</span>
+                                        <strong id="gaat-value" aria-live="polite">--</strong>
+                                    </div>
+                                    <div class="indicator-card">
+                                        <span>GPAT</span>
+                                        <strong id="gpat-value" aria-live="polite">--</strong>
+                                    </div>
+                                </div>
+                                <nav class="fun-links" aria-label="Fun projects">
+                                    <a href="./tetrisonly/index.html">Tetris</a>
+                                    <a href="./snake/index.html">Snake</a>
+                                    <a href="./DashBoardSite/index.html">Dashboard</a>
+                                    <a href="./schoolTracker/index.html">School tracker</a>
+                                </nav>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            <ul class="outer-nav">
+                <li class="is-active">Home</li>
+                <li>Works</li>
+                <li>About</li>
+                <li>Contact</li>
+                <li id="funpage">Fun Stuff</li>
+            </ul>
+        </div>
+    </div>
+
+    <dialog class="settings-dialog" id="settings-dialog" aria-labelledby="settings-title">
+        <div class="settings-content">
+            <header class="settings-heading">
+                <div>
+                    <h2 id="settings-title">Site controls</h2>
+                    <p>Personalize the accent and fireworks.</p>
+                </div>
+                <button class="settings-close" type="button" data-close-settings
+                    aria-label="Close settings">Close</button>
+            </header>
+            <div class="settings-fields">
+                <label class="settings-field" for="settings-accent">
+                    Accent color
+                    <select id="settings-accent">
+                        <option value="random">Random on refresh</option>
+                        <option value="roygbiv">Random ROYGBIV on refresh</option>
+                        <option value="red">Red</option>
+                        <option value="orange">Orange</option>
+                        <option value="yellow">Yellow</option>
+                        <option value="green">Green</option>
+                        <option value="blue">Blue</option>
+                        <option value="indigo">Indigo</option>
+                        <option value="violet">Violet</option>
+                        <option value="custom">Custom color</option>
+                    </select>
+                </label>
+                <label class="settings-field" id="settings-custom-color-field" for="settings-custom-color">
+                    Custom accent
+                    <input id="settings-custom-color" type="color" value="#ff72b6" />
+                </label>
+                <label class="settings-check">
+                    <input id="settings-fireworks-enabled" type="checkbox" checked />
+                    Show fireworks on the Fun Stuff page
+                </label>
+                <label class="settings-field" for="settings-launch-rate">
+                    Launch frequency
+                    <span class="settings-range">
+                        <input id="settings-launch-rate" type="range" min="0" max="10" step="1" value="2" />
+                        <output id="settings-launch-rate-value" for="settings-launch-rate"></output>
+                    </span>
+                </label>
+                <label class="settings-field" for="settings-burst-size">
+                    Burst size
+                    <span class="settings-range">
+                        <input id="settings-burst-size" type="range" min="10" max="150" step="10" value="50" />
+                        <output id="settings-burst-size-value" for="settings-burst-size"></output>
+                    </span>
+                </label>
+                <label class="settings-check">
+                    <input id="settings-trails-enabled" type="checkbox" checked />
+                    Keep fading trails
+                </label>
+                <label class="settings-field" for="settings-firework-color">
+                    Firework colors
+                    <select id="settings-firework-color">
+                        <option value="rainbow">Spectrum</option>
+                        <option value="accent">Match page accent</option>
+                    </select>
+                </label>
+            </div>
+            <footer class="settings-actions">
+                <button class="settings-reset" id="settings-random-accent" type="button">Random accent next
+                    refresh</button>
+                <button class="settings-apply" id="settings-apply" type="button">Apply settings</button>
+            </footer>
+        </div>
+    </dialog>
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.4/jquery.min.js"></script>
+    <script>
+        window.jQuery || document.write('<script src="assets/js/vendor/jquery-2.2.4.min.js"><\/script>');
+    </script>
+    <script src="assets/js/functions-min.js"></script>
+    <script src="assets/js/main.js"></script>
+    <script src="assets/js/googleRetreive.js"></script>
+    <script src="assets/js/github-portfolio.js"></script>
+    <script src="assets/js/site-refresh.js"></script>
 </body>
 
 </html>

@@ -5,15 +5,22 @@ const apiKey = "AIzaSyByVmS9mRHs3K1d_M0WXtGg6QC_1H5lOo4";
 const url = `https://sheets.googleapis.com/v4/spreadsheets/${sheetId}/values/${sheetName}!${range}?key=${apiKey}`;
 
 fetch(url)
-  .then((response) => response.json())
+  .then((response) => {
+    if (!response.ok) throw new Error("Unable to load score values");
+    return response.json();
+  })
   .then((data) => {
-    const h1 = document.getElementById("data");
-    const gaatValue = parseFloat(data.values[0][0]);
-    const gpatValue = parseFloat(data.values[1][0]);
+    const gaatTarget = document.getElementById("gaat-value");
+    const gpatTarget = document.getElementById("gpat-value");
+    if (!gaatTarget || !gpatTarget) return;
 
-    if (!isNaN(gpatValue) && !isNaN(gaatValue)) {
-      h1.innerHTML = "GAAT: " + gaatValue + " GPAT: " + gpatValue;
-    } else {
-      h1.innerHTML = "Data is not valid";
-    }
+    const values = data.values || [];
+    gaatTarget.textContent = values[0]?.[0] || "--";
+    gpatTarget.textContent = values[1]?.[0] || "--";
+  })
+  .catch(() => {
+    const gaatTarget = document.getElementById("gaat-value");
+    const gpatTarget = document.getElementById("gpat-value");
+    if (gaatTarget) gaatTarget.textContent = "--";
+    if (gpatTarget) gpatTarget.textContent = "--";
   });

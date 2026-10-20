@@ -1,7 +1,9 @@
 @font-face {
   font-family: "Montserrat";
   src: url("fonts/Montserrat-Black.eot");
-  src: local("☺"), url("fonts/Montserrat-Black.woff") format("woff"),
+  src:
+    local("☺"),
+    url("fonts/Montserrat-Black.woff") format("woff"),
     url("fonts/Montserrat-Black.ttf") format("truetype"),
     url("fonts/Montserrat-Black.svg") format("svg");
   font-weight: 900;
@@ -11,7 +13,9 @@
 @font-face {
   font-family: "Montserrat";
   src: url("fonts/Montserrat-Bold.eot");
-  src: local("☺"), url("fonts/Montserrat-Bold.woff") format("woff"),
+  src:
+    local("☺"),
+    url("fonts/Montserrat-Bold.woff") format("woff"),
     url("fonts/Montserrat-Bold.ttf") format("truetype"),
     url("fonts/Montserrat-Bold.svg") format("svg");
   font-weight: 700;
@@ -21,7 +25,9 @@
 @font-face {
   font-family: "Montserrat";
   src: url("fonts/Montserrat-Regular.eot");
-  src: local("☺"), url("fonts/Montserrat-Regular.woff") format("woff"),
+  src:
+    local("☺"),
+    url("fonts/Montserrat-Regular.woff") format("woff"),
     url("fonts/Montserrat-Regular.ttf") format("truetype"),
     url("fonts/Montserrat-Regular.svg") format("svg");
   font-weight: 400;
@@ -31,7 +37,9 @@
 @font-face {
   font-family: "Montserrat";
   src: url("fonts/Montserrat-Light.eot");
-  src: local("☺"), url("fonts/Montserrat-Light.woff") format("woff"),
+  src:
+    local("☺"),
+    url("fonts/Montserrat-Light.woff") format("woff"),
     url("fonts/Montserrat-Light.ttf") format("truetype"),
     url("fonts/Montserrat-Light.svg") format("svg");
   font-weight: 300;
@@ -310,41 +318,6 @@ body {
   margin: 0 auto;
 }
 
-.l-side-nav {
-  position: absolute;
-  left: 0;
-  display: -webkit-box;
-  display: -webkit-flex;
-  display: -ms-flexbox;
-  display: flex;
-  height: 100%;
-  -webkit-box-align: center;
-  -webkit-align-items: center;
-  -ms-flex-align: center;
-  align-items: center;
-}
-
-.l-side-nav::before {
-  content: "";
-  position: absolute;
-  top: 50%;
-  left: 0;
-  -webkit-transform: translateY(-50%);
-  transform: translateY(-50%);
-  width: 2px;
-  height: 70%;
-  max-height: 750px;
-  background-color: #555;
-  opacity: 0.35;
-  z-index: 10;
-}
-
-@media (max-width: 1180px) {
-  .l-side-nav {
-    display: none;
-  }
-}
-
 .l-main-content {
   position: relative;
   width: 100%;
@@ -451,8 +424,12 @@ body {
 .section {
   opacity: 0;
   visibility: hidden;
-  -webkit-transition: opacity 0.4s ease-in-out, visibility 0s 0.4s;
-  transition: opacity 0.4s ease-in-out, visibility 0s 0.4s;
+  -webkit-transition:
+    opacity 0.4s ease-in-out,
+    visibility 0s 0.4s;
+  transition:
+    opacity 0.4s ease-in-out,
+    visibility 0s 0.4s;
 }
 
 .section--is-active {
@@ -469,7 +446,9 @@ body {
   -webkit-transition: -webkit-transform 0.4s ease-in-out;
   transition: -webkit-transform 0.4s ease-in-out;
   transition: transform 0.4s ease-in-out;
-  transition: transform 0.4s ease-in-out, -webkit-transform 0.4s ease-in-out;
+  transition:
+    transform 0.4s ease-in-out,
+    -webkit-transform 0.4s ease-in-out;
 }
 
 .section--prev {
@@ -478,7 +457,9 @@ body {
   -webkit-transition: -webkit-transform 0.4s ease-in-out;
   transition: -webkit-transform 0.4s ease-in-out;
   transition: transform 0.4s ease-in-out;
-  transition: transform 0.4s ease-in-out, -webkit-transform 0.4s ease-in-out;
+  transition:
+    transform 0.4s ease-in-out,
+    -webkit-transform 0.4s ease-in-out;
 }
 
 .header {
@@ -581,8 +562,12 @@ body {
   border: none;
   opacity: 0;
   visibility: hidden;
-  -webkit-transition: opacity 0.4s ease-in-out, visibility 0s 0.4s;
-  transition: opacity 0.4s ease-in-out, visibility 0s 0.4s;
+  -webkit-transition:
+    opacity 0.4s ease-in-out,
+    visibility 0s 0.4s;
+  transition:
+    opacity 0.4s ease-in-out,
+    visibility 0s 0.4s;
 }
 
 .header--cta:focus {
@@ -600,95 +585,6 @@ body {
   .header--cta {
     display: none;
   }
-}
-
-.side-nav {
-  position: relative;
-  display: -webkit-box;
-  display: -webkit-flex;
-  display: -ms-flexbox;
-  display: flex;
-  width: 100px;
-  height: 70%;
-  max-height: 750px;
-  -webkit-box-orient: vertical;
-  -webkit-box-direction: normal;
-  -webkit-flex-direction: column;
-  -ms-flex-direction: column;
-  flex-direction: column;
-  -webkit-justify-content: space-around;
-  -ms-flex-pack: distribute;
-  justify-content: space-around;
-  margin: 0;
-  padding: 0;
-  list-style-position: inside;
-  z-index: 10;
-}
-
-.side-nav > li {
-  position: relative;
-  top: -5px;
-  color: #fff;
-  font-size: 6px;
-  cursor: pointer;
-}
-
-.side-nav > li span {
-  position: relative;
-  top: 3px;
-  left: 10px;
-  color: #fff;
-  font-size: 14px;
-  font-weight: 300;
-  opacity: 0;
-  visibility: hidden;
-}
-
-.side-nav > li::before {
-  position: absolute;
-  top: 3px;
-  left: 10px;
-  color: #555;
-  font-size: 14px;
-  font-weight: 300;
-}
-
-.side-nav li:nth-child(1)::before {
-  content: "01";
-}
-
-.side-nav li:nth-child(2)::before {
-  content: "02";
-}
-
-.side-nav li:nth-child(3)::before {
-  content: "03";
-}
-
-.side-nav li:nth-child(4)::before {
-  content: "04";
-}
-
-.side-nav li:nth-child(5)::before {
-  content: "05";
-}
-
-.side-nav li.is-active {
-  color: #0f33ff;
-  -webkit-transition: color 0.4s ease-in-out;
-  transition: color 0.4s ease-in-out;
-}
-
-.side-nav li.is-active span {
-  opacity: 1;
-  visibility: visible;
-  -webkit-transition: opacity 0.4s ease-in-out;
-  transition: opacity 0.4s ease-in-out;
-}
-
-.side-nav li.is-active::before {
-  left: -33px;
-  color: #fff;
 }
 
 .intro {
@@ -1294,8 +1190,12 @@ body {
   left: 10px;
   font-size: 16px;
   text-transform: uppercase;
-  -webkit-transition: bottom 0.2s ease-in-out, left 0.2s ease-in-out;
-  transition: bottom 0.2s ease-in-out, left 0.2s ease-in-out;
+  -webkit-transition:
+    bottom 0.2s ease-in-out,
+    left 0.2s ease-in-out;
+  transition:
+    bottom 0.2s ease-in-out,
+    left 0.2s ease-in-out;
 }
 
 @media (max-width: 767px) {
@@ -1592,9 +1492,12 @@ body {
   text-align: center;
   border: 2px solid #fff;
   cursor: pointer;
-  -webkit-transition: background-color 0.2s ease-in-out,
+  -webkit-transition:
+    background-color 0.2s ease-in-out,
     border-color 0.2s ease-in-out;
-  transition: background-color 0.2s ease-in-out, border-color 0.2s ease-in-out;
+  transition:
+    background-color 0.2s ease-in-out,
+    border-color 0.2s ease-in-out;
 }
 
 .work-request--options label svg {
@@ -1662,8 +1565,12 @@ body {
   top: 0;
   left: 0;
   pointer-events: none;
-  -webkit-transition: top 0.2s ease-in-out, font-size 0.2s ease-in-out;
-  transition: top 0.2s ease-in-out, font-size 0.2s ease-in-out;
+  -webkit-transition:
+    top 0.2s ease-in-out,
+    font-size 0.2s ease-in-out;
+  transition:
+    top 0.2s ease-in-out,
+    font-size 0.2s ease-in-out;
 }
 
 .work-request--information input:focus + label,
@@ -1750,7 +1657,9 @@ body {
   -webkit-transition: -webkit-transform 0.4s;
   transition: -webkit-transform 0.4s;
   transition: transform 0.4s;
-  transition: transform 0.4s, -webkit-transform 0.4s;
+  transition:
+    transform 0.4s,
+    -webkit-transform 0.4s;
 }
 
 .modalview .container {
@@ -1768,7 +1677,9 @@ body {
   -webkit-transition: -webkit-transform 0.4s;
   transition: -webkit-transform 0.4s;
   transition: transform 0.4s;
-  transition: transform 0.4s, -webkit-transform 0.4s;
+  transition:
+    transform 0.4s,
+    -webkit-transform 0.4s;
 }
 
 .effect-rotate-left--animate .container {
@@ -1822,20 +1733,38 @@ body {
   font-weight: 900;
   opacity: 0;
   cursor: pointer;
-  -webkit-transition: opacity 0.2s, -webkit-transform 0.2s;
-  transition: opacity 0.2s, -webkit-transform 0.2s;
-  transition: transform 0.2s, opacity 0.2s;
-  transition: transform 0.2s, opacity 0.2s, -webkit-transform 0.2s;
+  -webkit-transition:
+    opacity 0.2s,
+    -webkit-transform 0.2s;
+  transition:
+    opacity 0.2s,
+    -webkit-transform 0.2s;
+  transition:
+    transform 0.2s,
+    opacity 0.2s;
+  transition:
+    transform 0.2s,
+    opacity 0.2s,
+    -webkit-transform 0.2s;
 }
 
 .outer-nav > li.is-vis {
   -webkit-transform: translateX(0) translateZ(0);
   transform: translateX(0) translateZ(0);
   opacity: 1;
-  -webkit-transition: opacity 0.4s, -webkit-transform 0.4s;
-  transition: opacity 0.4s, -webkit-transform 0.4s;
-  transition: transform 0.4s, opacity 0.4s;
-  transition: transform 0.4s, opacity 0.4s, -webkit-transform 0.4s;
+  -webkit-transition:
+    opacity 0.4s,
+    -webkit-transform 0.4s;
+  transition:
+    opacity 0.4s,
+    -webkit-transform 0.4s;
+  transition:
+    transform 0.4s,
+    opacity 0.4s;
+  transition:
+    transform 0.4s,
+    opacity 0.4s,
+    -webkit-transform 0.4s;
 }
 
 .outer-nav > li::before {
@@ -1998,14 +1927,6 @@ body {
   100% {
     left: -100%;
   }
-}
-
-.confetti {
-  max-width: 640px;
-  display: block;
-  margin: 0 auto;
-  border: 1px solid #ddd;
-  user-select: none;
 }
 
 /*

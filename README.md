@@ -1,23 +1,25 @@
-Live preview at: <a href="https://kingfrankbob.github.io/">Kingfrankbob.github.io</a>
+# Michael's Site
 
-<!--
-## [Global: HTML5 website template](http://buckymaler.com/global)
+Live site: [kingfrankbob.github.io](https://kingfrankbob.github.io/)
 
-#### [Featured on Freebiesbug](http://freebiesbug.com/psd-freebies/global-futuristic-one-page-portfolio-psd-html/)
+## Update the About section
 
-Global is a modern and sleek website template crafted for professionals in the creative industry. Global can serve as a single page portfolio or be easily modified to serve as the perfect beginning for a hip creative agency.
+1. Open `index.html`.
+2. Find the element with `id="about-description"` and replace its paragraph with your own bio.
+3. Add your portrait to `assets/img/` and name it `about-me.jpg`.
+4. The About section uses that image automatically. If it is missing, the site falls back to `assets/img/about-visualone.png`.
 
-The original PSD is included and was provided by [Sergey Melnik](https://www.behance.net/SergeyMelnik).
+## Selected works
 
-This project was developed with HTML5, Sass, jQuery, and Hammer.js.
+The homepage randomly features six public repositories that are not forks or archived. Each project card shows its primary GitHub language and total commit count; preview images are not displayed. Language totals and commit counts are fetched from GitHub when the page loads.
 
-Performance basics are covered: assets are minified into single CSS and JS files, and the images are optimized.
+The homepage loads repository languages from GitHub's public API; no API key is needed. Rotating accent colors and browser-tab titles are managed in `assets/js/site-refresh.js`.
 
-[LIVE PREVIEW](http://buckymaler.com/global)
+## Site controls
 
-### Misc:
+GAAT and GPAT are loaded from the configured Google Sheet and appear as cards on the Fun Stuff page.
 
-* Follow Bucky: [Twitter](https://twitter.com/BuckyMaler), [GitHub](https://github.com/BuckyMaler)
-* Follow Sergey: [Dribbble](https://dribbble.com/sergeymelnik), [Bēhance](https://www.behance.net/SergeyMelnik)
-
--->
+also a potential rm in arizona - Area updates
+I hating on the comp lol
+CLEAR AMERICAN EZ TRADITION FROM ME AND ELDER BURGESS
+School is good, no, no, no, no, but someone from my mentoring
