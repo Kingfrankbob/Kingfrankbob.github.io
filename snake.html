@@ -1,0 +1,385 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <title>Snake Game</title>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <link rel="icon" type="image/svg+xml" href="assets/img/snake-icon.svg" />
+  <style>
+    .snake-page {
+      min-height: 100vh;
+      margin: 0;
+      background: #080a0b;
+    }
+
+    .snake-shell {
+      display: grid;
+      min-height: 100vh;
+      align-content: center;
+      justify-items: center;
+      gap: 1.25rem;
+      padding: 1.5rem;
+    }
+
+    .snake-header {
+      display: flex;
+      width: min(100%, 560px);
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .snake-home-link {
+      display: inline-flex;
+      min-height: 2.5rem;
+      align-items: center;
+      justify-content: center;
+      padding: 0.55rem 0.9rem;
+      border: 1px solid #526147;
+      border-radius: 6px;
+      background: linear-gradient(135deg, #1c2b1e, #151b17);
+      color: #c3f28d;
+      font-weight: 600;
+      text-decoration: none;
+      transition: background-color 150ms ease, border-color 150ms ease, transform 150ms ease;
+    }
+
+    .snake-home-link:hover {
+      border-color: #9ce267;
+      background: #243126;
+      transform: translateY(-1px);
+    }
+
+    .snake-home-link:focus-visible {
+      outline: 2px solid #9ce267;
+      outline-offset: 3px;
+    }
+
+    .snake-header h1 {
+      margin: 0;
+      font-size: 1.1rem;
+    }
+
+    .snake-scoreboard {
+      display: flex;
+      width: min(100%, 560px);
+      justify-content: space-between;
+      color: #a9b1ad;
+    }
+
+    .snake-scoreboard p {
+      margin: 0;
+    }
+
+    .snake-scoreboard strong {
+      margin-left: 0.4rem;
+      color: #f4f5f2;
+    }
+
+    .snake-settings {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: end;
+      justify-content: center;
+      gap: 0.75rem 1rem;
+      color: #f4f5f2;
+    }
+
+    .snake-settings label {
+      display: grid;
+      gap: 0.35rem;
+      color: #a9b1ad;
+      font-size: 0.9rem;
+    }
+
+    .snake-settings select,
+    .snake-settings button,
+    #btn_stop {
+      min-height: 2.5rem;
+      padding: 0.55rem 0.8rem;
+      border: 1px solid #526147;
+      border-radius: 4px;
+      background: #151b17;
+      color: #f4f5f2;
+      font: inherit;
+    }
+
+    .snake-settings button,
+    #btn_stop {
+      cursor: pointer;
+    }
+
+    .snake-settings button:hover,
+    #btn_stop:hover {
+      background: #243126;
+    }
+
+    #game {
+      width: min(72vw, 400px);
+      height: auto;
+      border: 1px solid #34443b;
+      border-radius: 4px;
+      background-color: #0c1110;
+      image-rendering: pixelated;
+    }
+
+    #end_msg {
+      min-height: 1.5rem;
+      margin: 0;
+      color: #ffb15c;
+    }
+
+    @media (max-width: 560px) {
+      .snake-shell {
+        padding: 1rem;
+      }
+
+      #game {
+        width: min(88vw, 400px);
+      }
+    }
+  </style>
+</head>
+
+<body class="snake-page">
+  <main class="snake-shell">
+    <header class="snake-header">
+      <h1>Snake</h1>
+      <a class="snake-home-link" href="index.html">Return to Home</a>
+    </header>
+    <div class="snake-scoreboard" aria-live="polite">
+      <p>Score <strong id="score">0</strong></p>
+      <p>Best <strong id="high">0</strong></p>
+      <p>Speed <strong id="speed">—</strong></p>
+    </div>
+    <div class="snake-settings">
+      <label for="appleCount">Red apples
+        <select id="appleCount">
+          <option value="1">1 apple</option>
+          <option value="2">2 apples</option>
+          <option value="3" selected>3 apples</option>
+          <option value="4">4 apples</option>
+          <option value="5">5 apples</option>
+        </select>
+      </label>
+      <label for="startingSpeed">Starting speed
+        <select id="startingSpeed">
+          <option value="200">Slow</option>
+          <option value="150" selected>Normal</option>
+          <option value="110">Fast</option>
+        </select>
+      </label>
+      <button id="startButton" type="button">Start game</button>
+    </div>
+    <canvas width="400" height="400" id="game" aria-label="Snake game board"></canvas>
+    <button id="btn_stop" type="button" disabled>Pause game</button>
+    <p id="end_msg" aria-live="polite">Choose your settings, then start a game. Use the arrow keys to steer.</p>
+  </main>
+
+  <script>
+    const canvas = document.getElementById("game");
+    const context = canvas.getContext("2d");
+    const grid = 16;
+    const boardSize = canvas.width / grid;
+    const scoreDisplay = document.getElementById("score");
+    const highDisplay = document.getElementById("high");
+    const speedDisplay = document.getElementById("speed");
+    const message = document.getElementById("end_msg");
+    const startButton = document.getElementById("startButton");
+    const pauseButton = document.getElementById("btn_stop");
+    const appleCountInput = document.getElementById("appleCount");
+    const startingSpeedInput = document.getElementById("startingSpeed");
+
+    let snake;
+    let apples = [];
+    let score = 0;
+    let highScore = Number(localStorage.getItem("snakeHighScore")) || 0;
+    let startInterval = Number(startingSpeedInput.value);
+    let isRunning = false;
+    let isGameOver = false;
+    let lastFrameTime = 0;
+    let timeSinceMove = 0;
+    let frameId = null;
+
+    highDisplay.textContent = highScore;
+
+    function randomCell() {
+      return Math.floor(Math.random() * boardSize) * grid;
+    }
+
+    function isOccupied(x, y) {
+      return snake.cells.some(cell => cell.x === x && cell.y === y) ||
+        apples.some(apple => apple.x === x && apple.y === y);
+    }
+
+    function spawnApple() {
+      const emptyCells = [];
+      for (let y = 0; y < canvas.height; y += grid) {
+        for (let x = 0; x < canvas.width; x += grid) {
+          if (!isOccupied(x, y)) emptyCells.push({ x, y });
+        }
+      }
+
+      if (emptyCells.length > 0) {
+        apples.push(emptyCells[Math.floor(Math.random() * emptyCells.length)]);
+      }
+    }
+
+    function draw() {
+      context.clearRect(0, 0, canvas.width, canvas.height);
+      context.fillStyle = "#ef4444";
+      apples.forEach(apple => context.fillRect(apple.x, apple.y, grid - 1, grid - 1));
+      if (!snake) return;
+
+      snake.cells.forEach((cell, index) => {
+        context.fillStyle = index === 0 ? "#a3e635" : "#4ade80";
+        context.fillRect(cell.x, cell.y, grid - 1, grid - 1);
+      });
+    }
+
+    function currentInterval() {
+      return Math.max(60, startInterval - Math.floor(score / 3) * 8);
+    }
+
+    function updateSpeedDisplay() {
+      speedDisplay.textContent = `${Math.round(1000 / currentInterval())} moves/sec`;
+    }
+
+    function finishGame() {
+      isRunning = false;
+      isGameOver = true;
+      pauseButton.disabled = true;
+      pauseButton.textContent = "Pause game";
+      message.textContent = `Game over! Final score: ${score}. Choose settings and start again.`;
+      startButton.textContent = "Play again";
+    }
+
+    function step() {
+      snake.dx = snake.nextDx;
+      snake.dy = snake.nextDy;
+      snake.x += snake.dx;
+      snake.y += snake.dy;
+
+      if (snake.x < 0) snake.x = canvas.width - grid;
+      else if (snake.x >= canvas.width) snake.x = 0;
+      if (snake.y < 0) snake.y = canvas.height - grid;
+      else if (snake.y >= canvas.height) snake.y = 0;
+
+      const ateAppleIndex = apples.findIndex(apple => apple.x === snake.x && apple.y === snake.y);
+      const ateApple = ateAppleIndex !== -1;
+      if (!ateApple) snake.cells.pop();
+
+      if (snake.cells.some(cell => cell.x === snake.x && cell.y === snake.y)) {
+        finishGame();
+        draw();
+        return;
+      }
+
+      snake.cells.unshift({ x: snake.x, y: snake.y });
+
+      if (ateApple) {
+        apples.splice(ateAppleIndex, 1);
+        score += 1;
+        scoreDisplay.textContent = score;
+        if (score > highScore) {
+          highScore = score;
+          highDisplay.textContent = highScore;
+          localStorage.setItem("snakeHighScore", String(highScore));
+        }
+        while (apples.length < Number(appleCountInput.value)) spawnApple();
+        updateSpeedDisplay();
+      }
+
+      draw();
+    }
+
+    function loop(timestamp) {
+      if (!isRunning) return;
+      if (!lastFrameTime) lastFrameTime = timestamp;
+      timeSinceMove += timestamp - lastFrameTime;
+      lastFrameTime = timestamp;
+
+      const interval = currentInterval();
+      if (timeSinceMove >= interval) {
+        timeSinceMove %= interval;
+        step();
+      }
+
+      if (isRunning) frameId = requestAnimationFrame(loop);
+    }
+
+    function startGame() {
+      if (frameId !== null) cancelAnimationFrame(frameId);
+      score = 0;
+      scoreDisplay.textContent = score;
+      startInterval = Number(startingSpeedInput.value);
+      snake = {
+        x: 160,
+        y: 160,
+        dx: grid,
+        dy: 0,
+        nextDx: grid,
+        nextDy: 0,
+        cells: [
+          { x: 160, y: 160 },
+          { x: 144, y: 160 },
+          { x: 128, y: 160 },
+          { x: 112, y: 160 }
+        ]
+      };
+      apples = [];
+      while (apples.length < Number(appleCountInput.value)) spawnApple();
+      isGameOver = false;
+      isRunning = true;
+      timeSinceMove = 0;
+      lastFrameTime = 0;
+      startButton.textContent = "Restart game";
+      pauseButton.textContent = "Pause game";
+      pauseButton.disabled = false;
+      message.textContent = "Use the arrow keys to steer. Speed increases every 3 apples!";
+      updateSpeedDisplay();
+      draw();
+      frameId = requestAnimationFrame(loop);
+    }
+
+    startButton.addEventListener("click", startGame);
+
+    pauseButton.addEventListener("click", function () {
+      if (isGameOver) return;
+      isRunning = !isRunning;
+      pauseButton.textContent = isRunning ? "Pause game" : "Resume game";
+      message.textContent = isRunning ? "Game resumed." : "Game paused.";
+      if (isRunning) {
+        lastFrameTime = 0;
+        frameId = requestAnimationFrame(loop);
+      } else if (frameId !== null) {
+        cancelAnimationFrame(frameId);
+      }
+    });
+
+    document.addEventListener("keydown", function (event) {
+      const directions = {
+        ArrowLeft: [-grid, 0],
+        ArrowUp: [0, -grid],
+        ArrowRight: [grid, 0],
+        ArrowDown: [0, grid]
+      };
+      const direction = directions[event.key];
+      if (!direction || !isRunning) return;
+      event.preventDefault();
+
+      const [dx, dy] = direction;
+      if (dx !== 0 && snake.nextDx === 0) {
+        snake.nextDx = dx;
+        snake.nextDy = dy;
+      } else if (dy !== 0 && snake.nextDy === 0) {
+        snake.nextDx = dx;
+        snake.nextDy = dy;
+      }
+    });
+
+    draw();
+  </script>
+</body>
+
+</html>

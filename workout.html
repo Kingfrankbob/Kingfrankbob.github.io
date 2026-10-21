@@ -1,0 +1,1269 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>IronPULSE - Workout & Set Tracker</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Lucide Icons -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <!-- Font Awesome for additional graphics -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Teko:wght@500;700&family=Inter:wght@300;400;600;700;900&display=swap"
+        rel="stylesheet">
+    <link rel="icon" type="image/svg+xml"
+        href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%2310b981' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='m6.5 6.5 11 11'%3E%3C/path%3E%3Cpath d='m21 21-1 1a2 2 0 0 1-2.83 0l-2.5-2.5a2 2 0 0 1 0-2.83l1-1a2 2 0 0 1 2.83 0l2.5 2.5a2 2 0 0 1 0 2.83z'%3E%3C/path%3E%3Cpath d='m3 3 1-1a2 2 0 0 1 2.83 0l2.5 2.5a2 2 0 0 1 0 2.83l-1 1a2 2 0 0 1-2.83 0L2 5.83A2 2 0 0 1 3 3z'%3E%3C/path%3E%3Cpath d='m18 3 3 3'%3E%3C/path%3E%3Cpath d='m3 18 3 3'%3E%3C/path%3E%3C/svg%3E">
+
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        brand: {
+                            500: '#10b981', // Emerald primary accent
+                            600: '#059669',
+                            neon: '#00ffaa',
+                            dark: '#0f172a',
+                            panel: '#1e293b',
+                            card: '#0f172a'
+                        }
+                    },
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                        display: ['Teko', 'sans-serif'],
+                    }
+                }
+            }
+        }
+    </script>
+
+    <style>
+        /* Custom scrollbars */
+        ::-webkit-scrollbar {
+            width: 6px;
+            height: 6px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: #0f172a;
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: #334155;
+            border-radius: 9999px;
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+            background: #10b981;
+        }
+
+        /* Glowing text & shadows */
+        .glow-emerald {
+            text-shadow: 0 0 12px rgba(16, 185, 129, 0.6);
+        }
+
+        .box-glow-emerald {
+            box-shadow: 0 0 20px rgba(16, 185, 129, 0.25);
+        }
+
+        .box-glow-neon {
+            box-shadow: 0 0 25px rgba(0, 255, 170, 0.35);
+        }
+
+        /* Pulse animation for timer complete */
+        @keyframes ringPulse {
+            0% {
+                transform: scale(1);
+                opacity: 0.8;
+            }
+
+            50% {
+                transform: scale(1.08);
+                opacity: 1;
+                filter: drop-shadow(0 0 15px #00ffaa);
+            }
+
+            100% {
+                transform: scale(1);
+                opacity: 0.8;
+            }
+        }
+
+        .timer-alert {
+            animation: ringPulse 0.8s infinite ease-in-out;
+        }
+
+        /* Canvas background overlay grid */
+        .bg-grid-pattern {
+            background-size: 30px 30px;
+            background-image: linear-gradient(to right, rgba(255, 255, 255, 0.03) 1px, transparent 1px),
+                linear-gradient(to bottom, rgba(255, 255, 255, 0.03) 1px, transparent 1px);
+        }
+    </style>
+</head>
+
+<body
+    class="bg-slate-950 text-slate-100 font-sans min-h-screen flex flex-col justify-between antialiased selection:bg-emerald-500 selection:text-slate-950">
+
+    <!-- TOP HEADER / NAV -->
+    <header class="border-b border-slate-800/80 bg-slate-900/60 backdrop-blur-md sticky top-0 z-40">
+        <div class="max-w-4xl mx-auto px-4 py-3 flex items-center justify-between">
+            <div class="flex items-center gap-3 cursor-pointer" onclick="switchView('main')">
+                <div
+                    class="w-10 h-10 rounded-xl bg-gradient-to-tr from-emerald-600 to-teal-400 flex items-center justify-center text-slate-950 shadow-lg shadow-emerald-500/20 font-black text-2xl tracking-tighter">
+                    <i class="fa-solid font-black fa-dumbbell"></i>
+                </div>
+                <div>
+                    <h1
+                        class="font-display text-3xl font-bold tracking-wide uppercase leading-none bg-gradient-to-r from-emerald-400 via-teal-300 to-cyan-400 bg-clip-text text-transparent">
+                        IronPULSE</h1>
+                    <p class="text-[10px] text-slate-400 tracking-widest uppercase -mt-1 font-semibold">Michael's Pro
+                        Workout & Set Tracker</p>
+                </div>
+            </div>
+
+            <a href="index.html"
+                class="shrink-0 inline-flex items-center gap-2 rounded-lg border border-emerald-500/40 bg-slate-800/80 px-3 py-2 text-sm font-semibold text-emerald-300 transition-colors hover:border-emerald-400 hover:bg-emerald-500/10 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-emerald-400"
+                aria-label="Return to home page">
+                <i class="fa-solid fa-house" aria-hidden="true"></i>
+                <span class="hidden sm:inline">Return to Home</span>
+                <span class="sm:hidden">Home</span>
+            </a>
+
+            <!-- Header Quick Controls -->
+            <div id="activeWorkoutHeaderInfo"
+                class="hidden items-center gap-3 bg-slate-800/80 border border-emerald-500/30 px-3 py-1.5 rounded-full">
+                <span class="w-2.5 h-2.5 rounded-full bg-emerald-400 animate-ping"></span>
+                <span id="headerWorkoutName"
+                    class="text-xs font-semibold text-emerald-300 truncate max-w-[120px] sm:max-w-[200px]">Workout</span>
+                <button onclick="confirmEndWorkout()"
+                    class="text-xs bg-rose-500/20 hover:bg-rose-500/40 text-rose-300 px-2 py-0.5 rounded-full transition-colors border border-rose-500/30 font-semibold">
+                    End Session
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <!-- MAIN APP CONTAINER -->
+    <main class="max-w-4xl w-full mx-auto px-4 py-6 flex-grow flex flex-col justify-center">
+
+        <!-- ================= VIEW 1: MAIN HOME (TWO BUTTONS) ================= -->
+        <section id="viewMain" class="view-screen space-y-8 my-auto py-8">
+            <div class="text-center space-y-3">
+                <div
+                    class="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-emerald-500/10 border border-emerald-500/20 text-emerald-400 text-xs font-semibold tracking-wider uppercase mb-2">
+                    <i class="fa-solid fa-bolt text-emerald-400"></i> Track Sets & Rest Intervals
+                </div>
+                <h2 class="text-4xl sm:text-6xl font-extrabold tracking-tight text-slate-100">
+                    Ready To <span
+                        class="bg-gradient-to-r from-emerald-400 to-cyan-400 bg-clip-text text-transparent">Crush
+                        It?</span>
+                </h2>
+                <p class="text-slate-400 max-w-md mx-auto text-sm sm:text-base">
+                    Track your weights, set counts, live changes, and auto rest intervals effortlessly with real-time
+                    exercise feedback.
+                </p>
+            </div>
+
+            <!-- TWO PROMINENT BUTTONS -->
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-5 max-w-xl mx-auto pt-4">
+                <button onclick="switchView('setup')"
+                    class="group relative overflow-hidden bg-gradient-to-br from-emerald-500 to-teal-600 hover:from-emerald-400 hover:to-teal-500 text-slate-950 p-6 sm:p-8 rounded-2xl shadow-xl shadow-emerald-950/40 border border-emerald-400/40 flex flex-col items-center text-center transition-all duration-300 hover:scale-[1.02] active:scale-[0.98]">
+                    <div
+                        class="absolute -right-6 -bottom-6 text-slate-950/10 group-hover:text-slate-950/20 transition-all text-8xl font-black">
+                        <i class="fa-solid fa-play"></i>
+                    </div>
+                    <div
+                        class="w-16 h-16 rounded-2xl bg-slate-950/10 flex items-center justify-center mb-4 group-hover:scale-110 transition-transform">
+                        <i class="fa-solid fa-dumbbell text-3xl text-slate-950"></i>
+                    </div>
+                    <span class="font-display text-3xl font-black tracking-wider uppercase leading-none">Start
+                        Workout</span>
+                    <span class="text-xs font-semibold opacity-80 mt-1 text-slate-900">Configure & begin active
+                        session</span>
+                </button>
+
+                <button onclick="switchView('history')"
+                    class="group relative overflow-hidden bg-slate-900 hover:bg-slate-800/90 text-slate-100 p-6 sm:p-8 rounded-2xl shadow-xl border border-slate-800 hover:border-slate-700 flex flex-col items-center text-center transition-all duration-300 hover:scale-[1.02] active:scale-[0.98]">
+                    <div
+                        class="absolute -right-6 -bottom-6 text-slate-800/20 group-hover:text-slate-700/30 transition-all text-8xl font-black">
+                        <i class="fa-solid fa-clock-rotate-left"></i>
+                    </div>
+                    <div
+                        class="w-16 h-16 rounded-2xl bg-emerald-500/10 border border-emerald-500/20 flex items-center justify-center mb-4 group-hover:scale-110 transition-transform">
+                        <i class="fa-solid fa-clipboard-list text-3xl text-emerald-400"></i>
+                    </div>
+                    <span
+                        class="font-display text-3xl font-black tracking-wider uppercase leading-none text-slate-100">View
+                        History</span>
+                    <span class="text-xs font-medium text-slate-400 mt-1">Review recorded logs & weights</span>
+                </button>
+            </div>
+
+            <!-- Quick Stats Summary Footer -->
+            <div
+                class="max-w-xl mx-auto pt-6 border-t border-slate-800/60 flex justify-around text-center text-slate-400 text-xs">
+                <div>
+                    <span class="block text-xl font-extrabold text-slate-200" id="quickTotalWorkouts">0</span>
+                    Total Sessions
+                </div>
+                <div class="h-8 w-px bg-slate-800"></div>
+                <div>
+                    <span class="block text-xl font-extrabold text-emerald-400" id="quickTotalSets">0</span>
+                    Total Sets Logged
+                </div>
+                <div class="h-8 w-px bg-slate-800"></div>
+                <div>
+                    <span class="block text-xl font-extrabold text-cyan-400" id="quickLastActive">Never</span>
+                    Last Workout
+                </div>
+            </div>
+        </section>
+
+
+        <!-- ================= VIEW 2: WORKOUT SETUP ================= -->
+        <section id="viewSetup" class="view-screen hidden max-w-lg mx-auto w-full my-auto py-4">
+            <div
+                class="bg-slate-900/90 border border-slate-800 rounded-3xl p-6 sm:p-8 shadow-2xl backdrop-blur-xl relative overflow-hidden">
+                <button onclick="switchView('main')"
+                    class="absolute top-5 right-5 text-slate-400 hover:text-slate-200 p-2 rounded-full hover:bg-slate-800 transition-colors">
+                    <i class="fa-solid fa-xmark text-lg"></i>
+                </button>
+
+                <div class="flex items-center gap-3 mb-6">
+                    <div
+                        class="w-10 h-10 rounded-xl bg-emerald-500/10 border border-emerald-500/30 flex items-center justify-center text-emerald-400">
+                        <i class="fa-solid fa-sliders text-xl"></i>
+                    </div>
+                    <div>
+                        <h3
+                            class="font-display text-3xl font-extrabold tracking-wide uppercase text-slate-100 leading-none">
+                            Workout Setup</h3>
+                        <p class="text-xs text-slate-400">Define your exercise details to start tracking</p>
+                    </div>
+                </div>
+
+                <form id="workoutSetupForm" onsubmit="initiateWorkoutSession(event)" class="space-y-5">
+                    <!-- Exercise Name -->
+                    <div>
+                        <label class="block text-xs font-bold uppercase tracking-wider text-slate-300 mb-2">
+                            Workout / Exercise Name <span class="text-emerald-400">*</span>
+                        </label>
+                        <div class="relative">
+                            <input type="text" id="setupName" required
+                                placeholder="e.g., Bench Press, Bicep Curls, Squats"
+                                class="w-full bg-slate-950 border border-slate-800 focus:border-emerald-500 focus:ring-1 focus:ring-emerald-500 rounded-xl py-3.5 px-4 text-slate-100 placeholder-slate-600 outline-none text-sm font-semibold transition-all">
+                            <i
+                                class="fa-solid fa-pen-clip absolute right-4 top-1/2 -translate-y-1/2 text-slate-600 text-sm"></i>
+                        </div>
+                    </div>
+
+                    <!-- Initial Weight and Units -->
+                    <div class="grid grid-cols-3 gap-3">
+                        <div class="col-span-2">
+                            <label class="block text-xs font-bold uppercase tracking-wider text-slate-300 mb-2">
+                                Starting Weight
+                            </label>
+                            <input type="number" id="setupWeight" min="0" step="0.5" value="135" required
+                                class="w-full bg-slate-950 border border-slate-800 focus:border-emerald-500 focus:ring-1 focus:ring-emerald-500 rounded-xl py-3.5 px-4 text-slate-100 outline-none text-base font-bold transition-all">
+                        </div>
+                        <div>
+                            <label class="block text-xs font-bold uppercase tracking-wider text-slate-300 mb-2">
+                                Unit
+                            </label>
+                            <select id="setupUnit"
+                                class="w-full bg-slate-950 border border-slate-800 focus:border-emerald-500 focus:ring-1 focus:ring-emerald-500 rounded-xl py-3.5 px-3 text-slate-100 outline-none text-sm font-bold transition-all cursor-pointer">
+                                <option value="lbs">lbs</option>
+                                <option value="kg">kg</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <!-- Rest Timer Duration -->
+                    <div>
+                        <div class="flex justify-between items-center mb-2">
+                            <label class="block text-xs font-bold uppercase tracking-wider text-slate-300">
+                                Default Rest Timer
+                            </label>
+                            <span id="setupRestDisplay"
+                                class="text-xs font-bold text-emerald-400 bg-emerald-500/10 px-2 py-0.5 rounded border border-emerald-500/20">1:30</span>
+                        </div>
+                        <div class="grid grid-cols-4 gap-2">
+                            <button type="button" onclick="setRestPreset(60)"
+                                class="rest-preset-btn bg-slate-950 hover:bg-slate-800 border border-slate-800 py-2.5 rounded-xl text-xs font-bold text-slate-300 transition-all">1:00</button>
+                            <button type="button" onclick="setRestPreset(90)"
+                                class="rest-preset-btn active bg-emerald-500/20 border border-emerald-500/50 py-2.5 rounded-xl text-xs font-bold text-emerald-300 transition-all">1:30</button>
+                            <button type="button" onclick="setRestPreset(120)"
+                                class="rest-preset-btn bg-slate-950 hover:bg-slate-800 border border-slate-800 py-2.5 rounded-xl text-xs font-bold text-slate-300 transition-all">2:00</button>
+                            <button type="button" onclick="setRestPreset(180)"
+                                class="rest-preset-btn bg-slate-950 hover:bg-slate-800 border border-slate-800 py-2.5 rounded-xl text-xs font-bold text-slate-300 transition-all">3:00</button>
+                        </div>
+                        <input type="hidden" id="setupRestSeconds" value="90">
+                    </div>
+
+                    <!-- Submit Button -->
+                    <button type="submit"
+                        class="w-full mt-4 bg-emerald-500 hover:bg-emerald-400 text-slate-950 py-4 rounded-xl font-display text-2xl font-black tracking-wider uppercase shadow-lg shadow-emerald-500/20 transition-all hover:scale-[1.01] active:scale-[0.99] flex items-center justify-center gap-2">
+                        <i class="fa-solid fa-play text-lg"></i> Begin First Set
+                    </button>
+                </form>
+            </div>
+        </section>
+
+
+        <!-- ================= VIEW 3: ACTIVE EXERCISE SCREEN ================= -->
+        <section id="viewActive" class="view-screen hidden max-w-2xl mx-auto w-full space-y-5">
+
+            <!-- Stickman Animation Box -->
+            <div
+                class="relative bg-slate-900 border border-slate-800 rounded-3xl p-4 overflow-hidden shadow-2xl bg-grid-pattern">
+                <!-- Overlay Header Badge -->
+                <div class="flex justify-between items-center mb-2 z-10 relative px-2">
+                    <div class="flex items-center gap-2">
+                        <span class="w-2.5 h-2.5 rounded-full bg-emerald-400 animate-pulse"></span>
+                        <span id="activeWorkoutTitle"
+                            class="font-display text-2xl font-bold uppercase tracking-wider text-slate-100">Bench
+                            Press</span>
+                    </div>
+                    <div
+                        class="bg-emerald-500/10 border border-emerald-500/30 text-emerald-400 px-3 py-1 rounded-full text-xs font-extrabold tracking-wider uppercase">
+                        Set #<span id="activeSetNumber">1</span>
+                    </div>
+                </div>
+
+                <!-- Stickman Canvas Graphic -->
+                <div class="w-full h-52 sm:h-60 relative flex items-center justify-center">
+                    <canvas id="stickmanCanvas" class="w-full h-full block"></canvas>
+                </div>
+
+                <!-- Animation Switcher / Speed Controls -->
+                <div
+                    class="flex justify-between items-center px-2 pt-2 border-t border-slate-800/80 text-xs text-slate-400">
+                    <div class="flex items-center gap-2">
+                        <span>Mode:</span>
+                        <button type="button" onclick="setAnimationType('bench')" id="btnAnimBench"
+                            class="px-2.5 py-1 rounded-lg bg-emerald-500/20 text-emerald-300 font-bold border border-emerald-500/40">Bench</button>
+                        <button type="button" onclick="setAnimationType('curl')" id="btnAnimCurl"
+                            class="px-2.5 py-1 rounded-lg bg-slate-800 text-slate-400 font-semibold hover:bg-slate-700">Curl</button>
+                        <button type="button" onclick="setAnimationType('squat')" id="btnAnimSquat"
+                            class="px-2.5 py-1 rounded-lg bg-slate-800 text-slate-400 font-semibold hover:bg-slate-700">Squat</button>
+                    </div>
+                    <div class="text-[11px] text-slate-500 italic hidden sm:block">
+                        <i class="fa-solid fa-heart-pulse text-emerald-500"></i> Rep Tempo Active
+                    </div>
+                </div>
+            </div>
+
+            <!-- Set Input Controls Box -->
+            <div class="bg-slate-900/90 border border-slate-800 rounded-3xl p-5 sm:p-6 shadow-xl space-y-5">
+
+                <div class="grid grid-cols-2 gap-4">
+                    <!-- Weight Control -->
+                    <div class="bg-slate-950 border border-slate-800 p-4 rounded-2xl flex flex-col justify-between">
+                        <span
+                            class="text-xs font-bold uppercase tracking-wider text-slate-400 flex items-center gap-1.5">
+                            <i class="fa-solid fa-weight-hanging text-emerald-400"></i> Weight (<span
+                                id="activeUnitLabel">lbs</span>)
+                        </span>
+
+                        <div class="flex items-center justify-between my-2">
+                            <button onclick="adjustActiveWeight(-5)"
+                                class="w-9 h-9 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-100 font-bold text-lg active:scale-95 transition-all flex items-center justify-center">-5</button>
+                            <input type="number" id="activeWeightInput" min="0" step="0.5"
+                                class="w-20 sm:w-24 bg-transparent text-center font-display text-4xl font-extrabold text-slate-100 outline-none"
+                                value="135">
+                            <button onclick="adjustActiveWeight(5)"
+                                class="w-9 h-9 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-100 font-bold text-lg active:scale-95 transition-all flex items-center justify-center">+5</button>
+                        </div>
+
+                        <div class="flex justify-center gap-1.5 text-[11px]">
+                            <button onclick="adjustActiveWeight(-2.5)"
+                                class="px-2 py-0.5 rounded bg-slate-800 hover:bg-slate-700 text-slate-300">-2.5</button>
+                            <button onclick="adjustActiveWeight(2.5)"
+                                class="px-2 py-0.5 rounded bg-slate-800 hover:bg-slate-700 text-slate-300">+2.5</button>
+                        </div>
+                    </div>
+
+                    <!-- Reps Control -->
+                    <div class="bg-slate-950 border border-slate-800 p-4 rounded-2xl flex flex-col justify-between">
+                        <span
+                            class="text-xs font-bold uppercase tracking-wider text-slate-400 flex items-center gap-1.5">
+                            <i class="fa-solid fa-rotate-right text-cyan-400"></i> Reps Completed
+                        </span>
+
+                        <div class="flex items-center justify-between my-2">
+                            <button onclick="adjustActiveReps(-1)"
+                                class="w-9 h-9 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-100 font-bold text-lg active:scale-95 transition-all flex items-center justify-center">-1</button>
+                            <input type="number" id="activeRepsInput" min="1" max="999"
+                                class="w-16 sm:w-20 bg-transparent text-center font-display text-4xl font-extrabold text-slate-100 outline-none"
+                                value="10">
+                            <button onclick="adjustActiveReps(1)"
+                                class="w-9 h-9 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-100 font-bold text-lg active:scale-95 transition-all flex items-center justify-center">+1</button>
+                        </div>
+
+                        <div class="flex justify-center gap-1.5 text-[11px]">
+                            <button onclick="adjustActiveReps(-5)"
+                                class="px-2 py-0.5 rounded bg-slate-800 hover:bg-slate-700 text-slate-300">-5</button>
+                            <button onclick="adjustActiveReps(5)"
+                                class="px-2 py-0.5 rounded bg-slate-800 hover:bg-slate-700 text-slate-300">+5</button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Weight Change Warning Indicator -->
+                <div id="weightChangeIndicator"
+                    class="hidden bg-amber-500/10 border border-amber-500/30 text-amber-300 text-xs px-3 py-2 rounded-xl flex items-center gap-2">
+                    <i class="fa-solid fa-triangle-exclamation text-amber-400"></i>
+                    <span>Weight modified from previous set (<span id="prevWeightDiffText">135 lbs</span>)</span>
+                </div>
+
+                <!-- Primary Action Buttons -->
+                <div class="flex flex-col sm:flex-row gap-3 pt-2">
+                    <button onclick="finishSetAndRest()"
+                        class="flex-1 bg-gradient-to-r from-emerald-500 to-teal-500 hover:from-emerald-400 hover:to-teal-400 text-slate-950 py-4 rounded-xl font-display text-2xl font-black uppercase tracking-wider shadow-lg shadow-emerald-500/20 transition-all hover:scale-[1.01] active:scale-[0.99] flex items-center justify-center gap-2">
+                        <i class="fa-solid fa-check text-xl"></i> Finish Set & Rest
+                    </button>
+
+                    <button onclick="confirmEndWorkout()"
+                        class="sm:w-36 bg-slate-800 hover:bg-rose-500/20 text-slate-300 hover:text-rose-300 border border-slate-700 hover:border-rose-500/40 py-3 rounded-xl font-semibold text-xs transition-all flex items-center justify-center gap-1.5">
+                        <i class="fa-solid fa-flag-checkered"></i> End Session
+                    </button>
+                </div>
+            </div>
+        </section>
+
+
+        <!-- ================= VIEW 4: REST SCREEN ================= -->
+        <section id="viewRest" class="view-screen hidden max-w-lg mx-auto w-full space-y-6 my-auto py-4">
+            <div id="restCardBox"
+                class="bg-slate-900 border border-slate-800 rounded-3xl p-6 sm:p-8 text-center shadow-2xl relative overflow-hidden transition-all duration-300">
+
+                <div
+                    class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-cyan-500/10 border border-cyan-500/30 text-cyan-400 text-xs font-bold uppercase tracking-wider mb-4">
+                    <i class="fa-solid fa-mug-hot"></i> Recovery Time
+                </div>
+
+                <!-- Countdown Timer Arc / Display -->
+                <div class="relative w-56 h-56 mx-auto my-2 flex items-center justify-center">
+                    <svg class="w-full h-full transform -rotate-90">
+                        <circle cx="112" cy="112" r="96" stroke="currentColor" stroke-width="12" class="text-slate-800"
+                            fill="transparent" />
+                        <circle id="timerProgressCircle" cx="112" cy="112" r="96" stroke="currentColor"
+                            stroke-width="12" class="text-emerald-400 transition-all duration-1000 ease-linear"
+                            stroke-dasharray="603" stroke-dashoffset="0" stroke-linecap="round" fill="transparent" />
+                    </svg>
+
+                    <div class="absolute flex flex-col items-center justify-center">
+                        <span id="restCountdownText"
+                            class="font-display text-6xl font-black tracking-tight text-slate-100 glow-emerald">01:30</span>
+                        <span class="text-xs uppercase tracking-widest text-slate-400 font-bold -mt-1">Rest
+                            Remaining</span>
+                    </div>
+                </div>
+
+                <!-- Quick Adjust Timer (+15s / -15s) -->
+                <div class="flex justify-center items-center gap-3 my-4">
+                    <button onclick="adjustRestTimer(-15)"
+                        class="bg-slate-800 hover:bg-slate-700 text-slate-200 border border-slate-700 px-4 py-2 rounded-xl text-xs font-bold transition-all active:scale-95 flex items-center gap-1">
+                        <i class="fa-solid fa-minus"></i> 15s
+                    </button>
+                    <button onclick="adjustRestTimer(15)"
+                        class="bg-slate-800 hover:bg-slate-700 text-slate-200 border border-slate-700 px-4 py-2 rounded-xl text-xs font-bold transition-all active:scale-95 flex items-center gap-1">
+                        <i class="fa-solid fa-plus"></i> 15s
+                    </button>
+                </div>
+
+                <!-- Pre-Adjust Next Set Weight -->
+                <div class="bg-slate-950 border border-slate-800/80 p-4 rounded-2xl my-5 text-left">
+                    <div class="flex justify-between items-center mb-2">
+                        <span class="text-xs font-bold uppercase tracking-wider text-slate-400">
+                            Prepare Weight For Set #<span id="nextSetNumber">2</span>
+                        </span>
+                        <span class="text-xs text-emerald-400 font-semibold" id="restWeightStatus">Ready</span>
+                    </div>
+                    <div
+                        class="flex items-center justify-between bg-slate-900 border border-slate-800 rounded-xl px-3 py-1.5">
+                        <button onclick="adjustRestWeight(-5)"
+                            class="w-8 h-8 rounded-lg bg-slate-800 hover:bg-slate-700 text-slate-200 font-bold">-5</button>
+                        <div class="text-center">
+                            <span id="restWeightDisplay"
+                                class="font-display text-2xl font-bold text-slate-100">135</span>
+                            <span class="text-xs text-slate-400 uppercase ml-1" id="restWeightUnit">lbs</span>
+                        </div>
+                        <button onclick="adjustRestWeight(5)"
+                            class="w-8 h-8 rounded-lg bg-slate-800 hover:bg-slate-700 text-slate-200 font-bold">+5</button>
+                    </div>
+                </div>
+
+                <!-- Skip / Start Next Set Button -->
+                <div class="space-y-2">
+                    <button onclick="skipRestAndStartNext()"
+                        class="w-full bg-emerald-500 hover:bg-emerald-400 text-slate-950 py-4 rounded-xl font-display text-2xl font-black uppercase tracking-wider shadow-lg shadow-emerald-500/20 transition-all hover:scale-[1.01] active:scale-[0.99] flex items-center justify-center gap-2">
+                        <i class="fa-solid fa-bolt text-lg"></i> Start Next Set
+                    </button>
+
+                    <button onclick="confirmEndWorkout()"
+                        class="w-full bg-slate-800 hover:bg-rose-500/20 text-slate-400 hover:text-rose-300 py-2.5 rounded-xl text-xs font-semibold transition-colors">
+                        End Session Early
+                    </button>
+                </div>
+            </div>
+        </section>
+
+
+        <!-- ================= VIEW 5: WORKOUT HISTORY ================= -->
+        <section id="viewHistory" class="view-screen hidden max-w-3xl mx-auto w-full space-y-6">
+            <!-- Header Bar -->
+            <div
+                class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 bg-slate-900 border border-slate-800 p-5 rounded-2xl">
+                <div>
+                    <h2 class="font-display text-3xl font-bold uppercase tracking-wider text-slate-100 leading-none">
+                        Workout Log History</h2>
+                    <p class="text-xs text-slate-400 mt-1">Review dates, weights, sets, and weight changes</p>
+                </div>
+                <div class="flex items-center gap-2 w-full sm:w-auto">
+                    <button onclick="switchView('setup')"
+                        class="flex-1 sm:flex-none bg-emerald-500 hover:bg-emerald-400 text-slate-950 font-bold px-4 py-2.5 rounded-xl text-xs transition-all flex items-center justify-center gap-1.5">
+                        <i class="fa-solid fa-plus"></i> New Workout
+                    </button>
+                    <button onclick="confirmClearHistory()"
+                        class="bg-rose-500/10 hover:bg-rose-500/20 text-rose-400 border border-rose-500/30 px-3 py-2.5 rounded-xl text-xs font-semibold transition-all">
+                        Clear All
+                    </button>
+                </div>
+            </div>
+
+            <!-- Search & Filter Bar -->
+            <div class="relative">
+                <input type="text" id="historySearchInput" oninput="renderHistoryList()"
+                    placeholder="Search workouts by name or date..."
+                    class="w-full bg-slate-900 border border-slate-800 focus:border-emerald-500 rounded-xl py-3 pl-10 pr-4 text-xs font-semibold text-slate-200 outline-none">
+                <i
+                    class="fa-solid fa-magnifying-glass absolute left-3.5 top-1/2 -translate-y-1/2 text-slate-500 text-xs"></i>
+            </div>
+
+            <!-- History List Container -->
+            <div id="historyListContainer" class="space-y-4">
+                <!-- Dynamic Content Rendered Here -->
+            </div>
+        </section>
+
+    </main>
+
+    <!-- GLOBAL FOOTER -->
+    <footer class="border-t border-slate-800/80 bg-slate-900/40 py-4 text-center text-slate-500 text-xs">
+        <div class="max-w-4xl mx-auto px-4 flex flex-col sm:flex-row items-center justify-between gap-2">
+            <span>IronPULSE &copy; Michael Cragun - Workout & Rest Interval Helper</span>
+            <span class="text-[11px] text-slate-600">Local Browser Storage &bull; Privacy First</span>
+        </div>
+    </footer>
+
+    <!-- MODAL / CONFIRMATION DIALOG -->
+    <div id="customModal"
+        class="fixed inset-0 bg-slate-950/80 backdrop-blur-sm z-50 hidden flex items-center justify-center p-4">
+        <div
+            class="bg-slate-900 border border-slate-800 rounded-2xl max-w-sm w-full p-6 text-center space-y-4 shadow-2xl">
+            <div id="modalIcon"
+                class="w-12 h-12 rounded-full bg-rose-500/10 border border-rose-500/30 text-rose-400 flex items-center justify-center mx-auto text-xl">
+                <i class="fa-solid fa-triangle-exclamation"></i>
+            </div>
+            <h3 id="modalTitle" class="font-display text-2xl font-bold uppercase text-slate-100">End Workout?</h3>
+            <p id="modalBody" class="text-xs text-slate-400">All current completed sets will be recorded into your
+                history.</p>
+            <div class="flex gap-3 pt-2">
+                <button onclick="closeModal()"
+                    class="flex-1 bg-slate-800 hover:bg-slate-700 text-slate-300 py-2.5 rounded-xl text-xs font-bold transition-all">Cancel</button>
+                <button id="modalConfirmBtn"
+                    class="flex-1 bg-rose-500 hover:bg-rose-400 text-slate-950 py-2.5 rounded-xl text-xs font-extrabold uppercase transition-all">Confirm</button>
+            </div>
+        </div>
+    </div>
+
+
+    <!-- APP LOGIC & CANVAS ANIMATION JAVASCRIPT -->
+    <script>
+        // ================= APP STATE MANAGEMENT =================
+        const STORAGE_KEY = 'ironpulse_workout_history_v1';
+
+        let state = {
+            currentView: 'main',
+            activeSession: null, // { name, initialWeight, unit, defaultRest, sets: [] }
+            currentSetNumber: 1,
+            currentWeight: 135,
+            currentReps: 10,
+            restTimeTotal: 90,
+            restTimeRemaining: 90,
+            restInterval: null,
+            animType: 'bench', // 'bench', 'curl', 'squat'
+            animFrameId: null
+        };
+
+        // Initialize App on DOM Ready
+        window.addEventListener('DOMContentLoaded', () => {
+            lucide.createIcons();
+            loadHistoryStats();
+            initStickmanCanvas();
+            renderHistoryList();
+        });
+
+        // Switch Screen Views smoothly
+        function switchView(viewName) {
+            state.currentView = viewName;
+            document.querySelectorAll('.view-screen').forEach(el => el.classList.add('hidden'));
+
+            const target = document.getElementById('view' + viewName.charAt(0).toUpperCase() + viewName.slice(1));
+            if (target) target.classList.remove('hidden');
+
+            // Header Info Toggle
+            const headerInfo = document.getElementById('activeWorkoutHeaderInfo');
+            if (state.activeSession && (viewName === 'active' || viewName === 'rest')) {
+                headerInfo.classList.remove('hidden');
+                headerInfo.classList.add('flex');
+            } else {
+                headerInfo.classList.add('hidden');
+                headerInfo.classList.remove('flex');
+            }
+
+            if (viewName === 'active') {
+                resizeCanvas();
+            } else if (viewName === 'history') {
+                renderHistoryList();
+            }
+        }
+
+        // ================= WORKOUT SETUP & INITIATION =================
+        function setRestPreset(seconds) {
+            document.getElementById('setupRestSeconds').value = seconds;
+            const min = Math.floor(seconds / 60);
+            const sec = seconds % 60;
+            document.getElementById('setupRestDisplay').innerText = `${min}:${sec < 10 ? '0' : ''}${sec}`;
+
+            document.querySelectorAll('.rest-preset-btn').forEach(btn => {
+                btn.classList.remove('bg-emerald-500/20', 'border-emerald-500/50', 'text-emerald-300');
+                btn.classList.add('bg-slate-950', 'border-slate-800', 'text-slate-300');
+            });
+            event.currentTarget.classList.remove('bg-slate-950', 'border-slate-800', 'text-slate-300');
+            event.currentTarget.classList.add('bg-emerald-500/20', 'border-emerald-500/50', 'text-emerald-300');
+        }
+
+        function initiateWorkoutSession(e) {
+            e.preventDefault();
+            const name = document.getElementById('setupName').value.trim() || 'General Workout';
+            const weight = parseFloat(document.getElementById('setupWeight').value) || 0;
+            const unit = document.getElementById('setupUnit').value;
+            const restSec = parseInt(document.getElementById('setupRestSeconds').value) || 90;
+
+            state.activeSession = {
+                id: 'wok_' + Date.now(),
+                name: name,
+                unit: unit,
+                defaultRest: restSec,
+                startTime: new Date().toISOString(),
+                sets: []
+            };
+
+            state.currentSetNumber = 1;
+            state.currentWeight = weight;
+            state.currentReps = 10;
+
+            // Automatically set animation type based on exercise name
+            const lowerName = name.toLowerCase();
+            if (lowerName.includes('curl') || lowerName.includes('bicep') || lowerName.includes('arm')) {
+                setAnimationType('curl');
+            } else if (lowerName.includes('squat') || lowerName.includes('leg') || lowerName.includes('press')) {
+                setAnimationType('squat');
+            } else {
+                setAnimationType('bench');
+            }
+
+            // Update UI fields
+            document.getElementById('headerWorkoutName').innerText = name;
+            document.getElementById('activeWorkoutTitle').innerText = name;
+            document.getElementById('activeUnitLabel').innerText = unit;
+            updateActiveSetUI();
+
+            switchView('active');
+        }
+
+        function updateActiveSetUI() {
+            document.getElementById('activeSetNumber').innerText = state.currentSetNumber;
+            document.getElementById('activeWeightInput').value = state.currentWeight;
+            document.getElementById('activeRepsInput').value = state.currentReps;
+
+            // Check if weight changed from previous set
+            const indicator = document.getElementById('weightChangeIndicator');
+            if (state.activeSession && state.activeSession.sets.length > 0) {
+                const prevSet = state.activeSession.sets[state.activeSession.sets.length - 1];
+                if (prevSet.weight !== state.currentWeight) {
+                    const diff = state.currentWeight - prevSet.weight;
+                    const sign = diff > 0 ? '+' : '';
+                    document.getElementById('prevWeightDiffText').innerText = `${prevSet.weight} ${state.activeSession.unit} (Shift: ${sign}${diff} ${state.activeSession.unit})`;
+                    indicator.classList.remove('hidden');
+                } else {
+                    indicator.classList.add('hidden');
+                }
+            } else {
+                indicator.classList.add('hidden');
+            }
+        }
+
+        function adjustActiveWeight(amount) {
+            state.currentWeight = Math.max(0, state.currentWeight + amount);
+            document.getElementById('activeWeightInput').value = state.currentWeight;
+            updateActiveSetUI();
+        }
+
+        function adjustActiveReps(amount) {
+            state.currentReps = Math.max(1, state.currentReps + amount);
+            document.getElementById('activeRepsInput').value = state.currentReps;
+        }
+
+        document.getElementById('activeWeightInput').addEventListener('input', (e) => {
+            state.currentWeight = parseFloat(e.target.value) || 0;
+            updateActiveSetUI();
+        });
+
+        document.getElementById('activeRepsInput').addEventListener('input', (e) => {
+            state.currentReps = parseInt(e.target.value) || 1;
+        });
+
+
+        // ================= SET COMPLETION & REST COUNTDOWN =================
+        function finishSetAndRest() {
+            if (!state.activeSession) return;
+
+            // Log set record
+            const previousWeight = state.activeSession.sets.length > 0
+                ? state.activeSession.sets[state.activeSession.sets.length - 1].weight
+                : state.currentWeight;
+
+            const isWeightChanged = state.activeSession.sets.length > 0 && (previousWeight !== state.currentWeight);
+
+            state.activeSession.sets.push({
+                setNum: state.currentSetNumber,
+                weight: state.currentWeight,
+                reps: state.currentReps,
+                timestamp: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }),
+                weightChanged: isWeightChanged,
+                previousWeight: previousWeight
+            });
+
+            // Prepare for Rest View
+            startRestTimer(state.activeSession.defaultRest);
+        }
+
+        function startRestTimer(duration) {
+            state.restTimeTotal = duration;
+            state.restTimeRemaining = duration;
+
+            document.getElementById('nextSetNumber').innerText = state.currentSetNumber + 1;
+            document.getElementById('restWeightDisplay').innerText = state.currentWeight;
+            document.getElementById('restWeightUnit').innerText = state.activeSession.unit;
+
+            updateRestTimerUI();
+            switchView('rest');
+
+            if (state.restInterval) clearInterval(state.restInterval);
+
+            state.restInterval = setInterval(() => {
+                state.restTimeRemaining--;
+                updateRestTimerUI();
+
+                if (state.restTimeRemaining <= 0) {
+                    clearInterval(state.restInterval);
+                    triggerRestCompletionAlert();
+                }
+            }, 1000);
+        }
+
+        function updateRestTimerUI() {
+            const min = Math.floor(state.restTimeRemaining / 60);
+            const sec = state.restTimeRemaining % 60;
+            document.getElementById('restCountdownText').innerText = `${min < 10 ? '0' : ''}${min}:${sec < 10 ? '0' : ''}${sec}`;
+
+            // SVG Circle Progress
+            const circle = document.getElementById('timerProgressCircle');
+            const circumference = 2 * Math.PI * 96; // r=96 -> ~603.18
+            const ratio = state.restTimeRemaining / Math.max(1, state.restTimeTotal);
+            const offset = circumference * (1 - ratio);
+            circle.style.strokeDashoffset = offset;
+        }
+
+        function adjustRestTimer(seconds) {
+            state.restTimeRemaining = Math.max(1, state.restTimeRemaining + seconds);
+            state.restTimeTotal = Math.max(state.restTimeTotal, state.restTimeRemaining);
+            updateRestTimerUI();
+        }
+
+        function adjustRestWeight(amount) {
+            state.currentWeight = Math.max(0, state.currentWeight + amount);
+            document.getElementById('restWeightDisplay').innerText = state.currentWeight;
+            document.getElementById('restWeightStatus').innerText = 'Updated for Next Set';
+        }
+
+        function triggerRestCompletionAlert() {
+            // Visual Pulse effect
+            const card = document.getElementById('restCardBox');
+            card.classList.add('ring-4', 'ring-emerald-400', 'timer-alert');
+
+            // Play Web Audio Beep
+            try {
+                const ctx = new (window.AudioContext || window.webkitAudioContext)();
+                const osc = ctx.createOscillator();
+                const gain = ctx.createGain();
+                osc.type = 'sine';
+                osc.frequency.setValueAtTime(880, ctx.currentTime); // A5 note
+                gain.gain.setValueAtTime(0.3, ctx.currentTime);
+                osc.connect(gain);
+                gain.connect(ctx.destination);
+                osc.start();
+                osc.stop(ctx.currentTime + 0.6);
+            } catch (e) {
+                console.log('Audio playback prevented');
+            }
+
+            setTimeout(() => {
+                card.classList.remove('ring-4', 'ring-emerald-400', 'timer-alert');
+            }, 3000);
+        }
+
+        function skipRestAndStartNext() {
+            if (state.restInterval) clearInterval(state.restInterval);
+            state.currentSetNumber++;
+            updateActiveSetUI();
+            switchView('active');
+        }
+
+
+        // ================= END WORKOUT & STORAGE =================
+        function confirmEndWorkout() {
+            showModal(
+                'End Workout Session?',
+                `Save session with ${state.activeSession ? state.activeSession.sets.length : 0} completed sets to your history?`,
+                'fa-flag-checkered',
+                'bg-emerald-500/10 text-emerald-400 border-emerald-500/30',
+                'Save & Finish',
+                () => executeEndWorkout()
+            );
+        }
+
+        function executeEndWorkout() {
+            closeModal();
+            if (state.restInterval) clearInterval(state.restInterval);
+
+            if (state.activeSession && state.activeSession.sets.length > 0) {
+                // Save to LocalStorage
+                state.activeSession.endTime = new Date().toISOString();
+                saveWorkoutRecord(state.activeSession);
+            }
+
+            state.activeSession = null;
+            loadHistoryStats();
+            switchView('main');
+        }
+
+        function saveWorkoutRecord(session) {
+            const history = getSavedHistory();
+            history.unshift(session);
+            localStorage.setItem(STORAGE_KEY, JSON.stringify(history));
+        }
+
+        function getSavedHistory() {
+            try {
+                return JSON.parse(localStorage.getItem(STORAGE_KEY)) || [];
+            } catch (e) {
+                return [];
+            }
+        }
+
+        function loadHistoryStats() {
+            const history = getSavedHistory();
+            let totalSets = 0;
+            history.forEach(item => totalSets += (item.sets ? item.sets.length : 0));
+
+            document.getElementById('quickTotalWorkouts').innerText = history.length;
+            document.getElementById('quickTotalSets').innerText = totalSets;
+
+            if (history.length > 0) {
+                const lastDate = new Date(history[0].startTime);
+                document.getElementById('quickLastActive').innerText = lastDate.toLocaleDateString(undefined, { month: 'short', day: 'numeric' });
+            } else {
+                document.getElementById('quickLastActive').innerText = 'Never';
+            }
+        }
+
+        // ================= HISTORY VIEW RENDER =================
+        function renderHistoryList() {
+            const container = document.getElementById('historyListContainer');
+            const search = document.getElementById('historySearchInput').value.toLowerCase();
+            const history = getSavedHistory();
+
+            const filtered = history.filter(item =>
+                item.name.toLowerCase().includes(search) ||
+                new Date(item.startTime).toLocaleDateString().includes(search)
+            );
+
+            if (filtered.length === 0) {
+                container.innerHTML = `
+                    <div class="text-center py-12 bg-slate-900/50 border border-slate-800 rounded-2xl">
+                        <i class="fa-solid fa-folder-open text-4xl text-slate-700 mb-3"></i>
+                        <p class="text-slate-400 font-semibold text-sm">No workout records found.</p>
+                        <p class="text-xs text-slate-600 mt-1">Start a workout to build your exercise history!</p>
+                    </div>
+                `;
+                return;
+            }
+
+            container.innerHTML = filtered.map((workout) => {
+                const dateObj = new Date(workout.startTime);
+                const dateStr = dateObj.toLocaleDateString(undefined, { weekday: 'short', month: 'short', day: 'numeric', year: 'numeric' });
+                const timeStr = dateObj.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+
+                const setsHTML = workout.sets.map(s => `
+                    <div class="flex items-center justify-between bg-slate-950/60 p-2.5 rounded-xl text-xs border ${s.weightChanged ? 'border-amber-500/30' : 'border-slate-800/80'}">
+                        <div class="flex items-center gap-2">
+                            <span class="w-6 h-6 rounded-lg bg-slate-800 font-bold text-slate-300 flex items-center justify-center text-[10px]">#${s.setNum}</span>
+                            <span class="font-extrabold text-slate-100">${s.weight} ${workout.unit}</span>
+                            <span class="text-slate-500">&times;</span>
+                            <span class="font-bold text-emerald-400">${s.reps} reps</span>
+                        </div>
+                        <div class="flex items-center gap-2">
+                            ${s.weightChanged ? `<span class="bg-amber-500/10 text-amber-300 text-[10px] px-2 py-0.5 rounded font-semibold border border-amber-500/20">Changed from ${s.previousWeight}${workout.unit}</span>` : ''}
+                            <span class="text-[10px] text-slate-500">${s.timestamp}</span>
+                        </div>
+                    </div>
+                `).join('');
+
+                return `
+                    <div class="bg-slate-900 border border-slate-800 rounded-2xl p-5 space-y-4 shadow-lg hover:border-slate-700 transition-all">
+                        <div class="flex justify-between items-start">
+                            <div>
+                                <h3 class="font-display text-2xl font-bold uppercase text-slate-100 tracking-wide leading-none">${escapeHtml(workout.name)}</h3>
+                                <p class="text-xs text-slate-400 mt-1 flex items-center gap-2">
+                                    <span><i class="fa-regular fa-calendar text-emerald-400"></i> ${dateStr} at ${timeStr}</span>
+                                    <span>&bull;</span>
+                                    <span>${workout.sets.length} total sets</span>
+                                </p>
+                            </div>
+                            <button onclick="deleteWorkoutRecord('${workout.id}')" class="text-slate-500 hover:text-rose-400 p-2 rounded-lg hover:bg-slate-800 transition-colors" title="Delete record">
+                                <i class="fa-solid fa-trash-can text-sm"></i>
+                            </button>
+                        </div>
+
+                        <div class="space-y-1.5 pt-1">
+                            ${setsHTML}
+                        </div>
+                    </div>
+                `;
+            }).join('');
+        }
+
+        function deleteWorkoutRecord(id) {
+            showModal(
+                'Delete Record?',
+                'Are you sure you want to remove this workout log from history?',
+                'fa-trash-can',
+                'bg-rose-500/10 text-rose-400 border-rose-500/30',
+                'Delete',
+                () => {
+                    closeModal();
+                    let history = getSavedHistory();
+                    history = history.filter(item => item.id !== id);
+                    localStorage.setItem(STORAGE_KEY, JSON.stringify(history));
+                    loadHistoryStats();
+                    renderHistoryList();
+                }
+            );
+        }
+
+        function confirmClearHistory() {
+            showModal(
+                'Clear Entire History?',
+                'This will permanently delete all saved workout logs.',
+                'fa-triangle-exclamation',
+                'bg-rose-500/10 text-rose-400 border-rose-500/30',
+                'Clear All',
+                () => {
+                    closeModal();
+                    localStorage.removeItem(STORAGE_KEY);
+                    loadHistoryStats();
+                    renderHistoryList();
+                }
+            );
+        }
+
+
+        // ================= STICKMAN CANVAS ANIMATION ENGINE =================
+        let canvas, ctx;
+        let animProgress = 0;
+
+        function initStickmanCanvas() {
+            canvas = document.getElementById('stickmanCanvas');
+            ctx = canvas.getContext('2d');
+            window.addEventListener('resize', resizeCanvas);
+            resizeCanvas();
+            requestAnimationFrame(animateLoop);
+        }
+
+        function resizeCanvas() {
+            if (!canvas) return;
+            const rect = canvas.getBoundingClientRect();
+            canvas.width = rect.width * window.devicePixelRatio || 300;
+            canvas.height = rect.height * window.devicePixelRatio || 200;
+        }
+
+        function setAnimationType(type) {
+            state.animType = type;
+            ['Bench', 'Curl', 'Squat'].forEach(t => {
+                const btn = document.getElementById('btnAnim' + t);
+                if (t.toLowerCase() === type) {
+                    btn.className = "px-2.5 py-1 rounded-lg bg-emerald-500/20 text-emerald-300 font-bold border border-emerald-500/40";
+                } else {
+                    btn.className = "px-2.5 py-1 rounded-lg bg-slate-800 text-slate-400 font-semibold hover:bg-slate-700";
+                }
+            });
+        }
+
+        function animateLoop(timestamp) {
+            if (canvas && ctx && state.currentView === 'active') {
+                animProgress += 0.035;
+                drawStickman(animProgress);
+            }
+            requestAnimationFrame(animateLoop);
+        }
+
+        function drawStickman(progress) {
+            const w = canvas.width;
+            const h = canvas.height;
+            ctx.clearRect(0, 0, w, h);
+
+            ctx.save();
+            ctx.scale(window.devicePixelRatio || 1, window.devicePixelRatio || 1);
+            const cw = w / (window.devicePixelRatio || 1);
+            const ch = h / (window.devicePixelRatio || 1);
+
+            // Dynamic sine curve smooth rep lifting (0 to 1 back to 0)
+            const phase = (Math.sin(progress) + 1) / 2;
+
+            ctx.strokeStyle = '#10b981'; // Emerald stroke
+            ctx.lineWidth = 4;
+            ctx.lineCap = 'round';
+            ctx.lineJoin = 'round';
+
+            if (state.animType === 'bench') {
+                drawBenchPress(ctx, cw, ch, phase);
+            } else if (state.animType === 'curl') {
+                drawBicepCurl(ctx, cw, ch, phase);
+            } else {
+                drawSquat(ctx, cw, ch, phase);
+            }
+
+            ctx.restore();
+        }
+
+        // --- Bench Press Stickman Drawing ---
+        function drawBenchPress(ctx, cw, ch, phase) {
+            const centerY = ch / 2 + 10;
+            const centerX = cw / 2;
+
+            // Bench Structure
+            ctx.strokeStyle = '#334155';
+            ctx.lineWidth = 5;
+            ctx.beginPath();
+            ctx.moveTo(centerX - 70, centerY + 25);
+            ctx.lineTo(centerX + 70, centerY + 25); // Bench top
+            ctx.moveTo(centerX - 50, centerY + 25);
+            ctx.lineTo(centerX - 50, centerY + 65); // Legs
+            ctx.moveTo(centerX + 50, centerY + 25);
+            ctx.lineTo(centerX + 50, centerY + 65);
+            ctx.stroke();
+
+            // Head
+            ctx.strokeStyle = '#00ffaa';
+            ctx.lineWidth = 4;
+            ctx.beginPath();
+            ctx.arc(centerX - 50, centerY + 10, 12, 0, Math.PI * 2);
+            ctx.stroke();
+
+            // Torso (Lying Down)
+            ctx.beginPath();
+            ctx.moveTo(centerX - 38, centerY + 15);
+            ctx.lineTo(centerX + 20, centerY + 15);
+            ctx.stroke();
+
+            // Legs
+            ctx.beginPath();
+            ctx.moveTo(centerX + 20, centerY + 15);
+            ctx.lineTo(centerX + 40, centerY + 25);
+            ctx.lineTo(centerX + 45, centerY + 60);
+            ctx.stroke();
+
+            // Barbell Height calculation (phase 0 = chest, 1 = extended arms)
+            const barY = (centerY - 10) - (phase * 40);
+
+            // Arms (Shoulder at centerX - 20)
+            const shoulderX = centerX - 20;
+            const shoulderY = centerY + 15;
+            const handX = centerX - 10;
+
+            ctx.beginPath();
+            ctx.moveTo(shoulderX, shoulderY);
+            // Elbow pushes down when bar is low
+            const elbowY = shoulderY + (15 * (1 - phase)) - 5;
+            ctx.lineTo(shoulderX + 10, elbowY);
+            ctx.lineTo(handX, barY);
+            ctx.stroke();
+
+            // Barbell
+            ctx.strokeStyle = '#e2e8f0';
+            ctx.lineWidth = 5;
+            ctx.beginPath();
+            ctx.moveTo(handX - 60, barY);
+            ctx.lineTo(handX + 60, barY);
+            ctx.stroke();
+
+            // Weight Plates
+            ctx.fillStyle = '#10b981';
+            ctx.fillRect(handX - 65, barY - 20, 8, 40);
+            ctx.fillRect(handX + 57, barY - 20, 8, 40);
+        }
+
+        // --- Bicep Curl Stickman Drawing ---
+        function drawBicepCurl(ctx, cw, ch, phase) {
+            const centerX = cw / 2;
+            const baseY = ch / 2 + 30;
+
+            // Head
+            ctx.strokeStyle = '#00ffaa';
+            ctx.lineWidth = 4;
+            ctx.beginPath();
+            ctx.arc(centerX, baseY - 90, 13, 0, Math.PI * 2);
+            ctx.stroke();
+
+            // Torso
+            ctx.beginPath();
+            ctx.moveTo(centerX, baseY - 77);
+            ctx.lineTo(centerX, baseY - 20);
+            ctx.stroke();
+
+            // Legs
+            ctx.beginPath();
+            ctx.moveTo(centerX, baseY - 20);
+            ctx.lineTo(centerX - 15, baseY + 35);
+            ctx.moveTo(centerX, baseY - 20);
+            ctx.lineTo(centerX + 15, baseY + 35);
+            ctx.stroke();
+
+            // Left static arm
+            ctx.beginPath();
+            ctx.moveTo(centerX, baseY - 65);
+            ctx.lineTo(centerX - 20, baseY - 35);
+            ctx.stroke();
+
+            // Right Lifting Arm (Curling)
+            const shoulderX = centerX;
+            const shoulderY = baseY - 65;
+            const elbowX = centerX + 12;
+            const elbowY = baseY - 35;
+
+            // Hand angle lifts up near shoulder
+            const handX = elbowX + (18 * (1 - phase));
+            const handY = elbowY + (20 * (1 - phase)) - (25 * phase);
+
+            ctx.beginPath();
+            ctx.moveTo(shoulderX, shoulderY);
+            ctx.lineTo(elbowX, elbowY);
+            ctx.lineTo(handX, handY);
+            ctx.stroke();
+
+            // Dumbbell Weight
+            ctx.fillStyle = '#10b981';
+            ctx.fillRect(handX - 8, handY - 12, 16, 6);
+            ctx.fillRect(handX - 8, handY + 6, 16, 6);
+            ctx.fillStyle = '#e2e8f0';
+            ctx.fillRect(handX - 2, handY - 10, 4, 20);
+        }
+
+        // --- Squat Stickman Drawing ---
+        function drawSquat(ctx, cw, ch, phase) {
+            const centerX = cw / 2;
+            // Phase 0 = standing high, 1 = deep squat
+            const squatOffset = phase * 35;
+            const headY = (ch / 2 - 45) + squatOffset;
+
+            // Head
+            ctx.strokeStyle = '#00ffaa';
+            ctx.lineWidth = 4;
+            ctx.beginPath();
+            ctx.arc(centerX, headY, 13, 0, Math.PI * 2);
+            ctx.stroke();
+
+            // Torso
+            const neckY = headY + 13;
+            const hipY = neckY + 45;
+            ctx.beginPath();
+            ctx.moveTo(centerX, neckY);
+            ctx.lineTo(centerX - (phase * 8), hipY); // slight forward lean
+            ctx.stroke();
+
+            // Legs bending
+            const kneeX = centerX + 20 + (phase * 10);
+            const kneeY = hipY + 20;
+            const footX = centerX + 5;
+            const footY = ch / 2 + 60;
+
+            ctx.beginPath();
+            ctx.moveTo(centerX - (phase * 8), hipY);
+            ctx.lineTo(kneeX, kneeY);
+            ctx.lineTo(footX, footY);
+            ctx.stroke();
+
+            // Barbell across shoulders
+            const barY = neckY + 8;
+            ctx.strokeStyle = '#e2e8f0';
+            ctx.lineWidth = 5;
+            ctx.beginPath();
+            ctx.moveTo(centerX - 60, barY);
+            ctx.lineTo(centerX + 60, barY);
+            ctx.stroke();
+
+            // Plates
+            ctx.fillStyle = '#10b981';
+            ctx.fillRect(centerX - 65, barY - 20, 8, 40);
+            ctx.fillRect(centerX + 57, barY - 20, 8, 40);
+        }
+
+
+        // ================= UTILITIES & MODALS =================
+        function showModal(title, body, iconClass, iconStyle, confirmText, onConfirm) {
+            document.getElementById('modalTitle').innerText = title;
+            document.getElementById('modalBody').innerText = body;
+
+            const iconBox = document.getElementById('modalIcon');
+            iconBox.className = `w-12 h-12 rounded-full flex items-center justify-center mx-auto text-xl border ${iconStyle}`;
+            iconBox.innerHTML = `<i class="fa-solid ${iconClass}"></i>`;
+
+            const btn = document.getElementById('modalConfirmBtn');
+            btn.innerText = confirmText;
+            btn.onclick = onConfirm;
+
+            document.getElementById('customModal').classList.remove('hidden');
+        }
+
+        function closeModal() {
+            document.getElementById('customModal').classList.add('hidden');
+        }
+
+        function escapeHtml(str) {
+            return str.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;").replace(/'/g, "&#039;");
+        }
+    </script>
+</body>
+
+</html>

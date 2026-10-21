@@ -3,6 +3,7 @@
 
 <head>
   <title>Tetris is Amazing!!!</title>
+  <link rel="icon" type="image/svg+xml" href="assets/img/tetris-icon.svg">
   <style>
     html,
     body {
@@ -49,6 +50,25 @@
       margin-right: 20px;
     }
 
+    #homeButton {
+      position: fixed;
+      top: 16px;
+      left: 16px;
+      z-index: 1;
+      padding: 10px 16px;
+      border: 1px solid white;
+      border-radius: 5px;
+      background: #222;
+      color: white;
+      font: 16px sans-serif;
+      text-decoration: none;
+    }
+
+    #homeButton:hover,
+    #homeButton:focus-visible {
+      background: #444;
+    }
+
     #restartButton {
       position: absolute;
       left: 50%;
@@ -67,6 +87,7 @@
 </head>
 
 <body>
+  <a id="homeButton" href="index.html">Return to Home</a>
   <p id="instructions">The controls are:<br>Space for hard drop<br>Up arrow to rotate<br>Down arrow for soft
     drop<br>Left and Right arrow
     keys<br>to move accordingly<br>
@@ -282,26 +303,22 @@
     function swapHold() {
       if (hasHeld) return;
 
-      // Temporarily store the current tetromino name and matrix
       const currentName = tetromino.name;
-      const currentMatrix = tetromino.matrix;
 
       if (holdPiece) {
-        // If there's already a piece in hold, swap it with the current piece
+        const matrix = tetrominos[holdPiece];
         tetromino = {
           name: holdPiece,
-          matrix: tetrominos[holdPiece],
-          row: -2, // Start at the top
-          col: Math.floor(playfield[0].length / 2) - 1 // Center column
+          matrix: matrix,
+          row: holdPiece === 'I' ? -1 : -2,
+          col: playfield[0].length / 2 - Math.ceil(matrix[0].length / 2)
         };
-        holdPiece = currentName; // Move current piece to hold
+        holdPiece = currentName;
       } else {
-        // If no piece in hold, set the current piece to hold and get a new piece
         holdPiece = currentName;
         tetromino = getNextTetromino();
       }
 
-      // Mark that hold has been used for this placement
       hasHeld = true;
       drawHold();
     }
@@ -464,7 +481,7 @@
         }
       }
 
-      if (e.which === 67) { // "C" key for hold
+      if (e.key.toLowerCase() === 'c' || e.which === 67) {
         swapHold();
       }
 
@@ -509,6 +526,8 @@
       score = 0;
       scoreDisplay.textContent = `Score: ${score}`;
       gameOver = false;
+      holdPiece = null;
+      hasHeld = false;
 
       for (let row = 0; row < playfield.length; row++) {
         playfield[row].fill(0);
