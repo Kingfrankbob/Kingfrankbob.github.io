@@ -92,6 +92,30 @@ function normalizeAllData() {
     appData.tasks.forEach(normalizeTask);
     appData.workouts.forEach(normalizeWorkout);
     appData.schedule.forEach(normalizeScheduleItem);
+
+    const taskIndexes = new Map();
+    const uniqueTasks = [];
+    appData.tasks.forEach(task => {
+        if (task.id === undefined || task.id === null || task.id === '') {
+            uniqueTasks.push(task);
+            return;
+        }
+
+        const key = String(task.id);
+        if (!taskIndexes.has(key)) {
+            taskIndexes.set(key, uniqueTasks.length);
+            uniqueTasks.push(task);
+            return;
+        }
+
+        const existingIndex = taskIndexes.get(key);
+        const existing = uniqueTasks[existingIndex];
+        if (task.updatedAt > existing.updatedAt ||
+            (task.updatedAt === existing.updatedAt && task.completed && !existing.completed)) {
+            uniqueTasks[existingIndex] = task;
+        }
+    });
+    appData.tasks = uniqueTasks;
 }
 
 function purgeTombstones() {
@@ -844,9 +868,10 @@ async function importCanvasAssignments() {
 
             const dueDate = normalizeDate(rawDue);
             const category = item.context_name || item.course_name || "Canvas";
-            const uniqueId = 'canvas_' + (plannable.id || Math.random().toString(36).substr(2, 9));
+            const canvasId = plannable.id || item.id || Math.random().toString(36).substr(2, 9);
+            const uniqueId = 'canvas_' + canvasId;
 
-            const exists = appData.tasks.some(t => t.title === title && t.dueDate === dueDate);
+            const exists = appData.tasks.some(t => String(t.id) === uniqueId);
             if (!exists) {
                 appData.tasks.push({
                     id: uniqueId,
