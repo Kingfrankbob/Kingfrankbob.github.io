@@ -30,6 +30,8 @@ function normalizeDate(val) {
     if (val === null || val === undefined || val === '') return '';
     const str = String(val).trim();
     if (/^\d{4}-\d{2}-\d{2}$/.test(str)) return str;
+    const isoDate = str.match(/^(\d{4}-\d{2}-\d{2})T/);
+    if (isoDate) return isoDate[1];
     const d = new Date(str);
     if (isNaN(d.getTime())) {
         const m = str.match(/^(\d{4}-\d{2}-\d{2})/);
@@ -346,79 +348,7 @@ function deleteTask(id) {
     renderAll();
 }
 
-// --- CANVAS IMPORT ENGINE ---
-async function importCanvasAssignments() {
-    scriptUrl = document.getElementById('scriptUrlInput').value.trim();
-    canvasDomain = document.getElementById('canvasDomainInput').value.trim();
-    canvasToken = document.getElementById('canvasTokenInput').value.trim();
 
-    if (!scriptUrl || !canvasDomain || !canvasToken) {
-        openSettings();
-        showMessage("Canvas Config Required", "Please fill in your Apps Script URL, Canvas Domain, and Access Token in Settings.");
-        return;
-    }
-
-    const canvasIcon = document.getElementById('canvasIcon');
-    if (canvasIcon) canvasIcon.className = "fa-solid fa-spinner fa-spin";
-
-    const today = new Date();
-    const nextWeek = new Date(today.getTime() + 7 * 24 * 60 * 60 * 1000);
-    
-    const startDate = localDateStr(today);
-    const endDate = localDateStr(nextWeek);
-
-    try {
-        const response = await fetch(scriptUrl, {
-            method: 'POST',
-            headers: { 'Content-Type': 'text/plain' },
-            body: JSON.stringify({
-                action: "fetch_canvas",
-                domain: canvasDomain,
-                token: canvasToken,
-                startDate: startDate,
-                endDate: endDate
-            })
-        });
-
-        const plannerItems = await response.json();
-        if (!Array.isArray(plannerItems)) {
-            throw new Error(plannerItems.message || "Invalid response from Canvas API. Check token or domain.");
-        }
-
-        let importedCount = 0;
-        plannerItems.forEach(item => {
-            const plannable = item.plannable || {};
-            const title = item.plannable_title || plannable.title || "Canvas Assignment";
-            const rawDue = item.plannable_date || plannable.due_at;
-            if (!rawDue) return;
-
-            const dueDate = normalizeDate(rawDue);
-            const category = item.context_name || item.course_name || "Canvas";
-
-            const exists = appData.tasks.some(t => !t.deleted && t.title === title && t.dueDate === dueDate);
-            if (!exists) {
-                appData.tasks.push({
-                    id: 'canvas_' + (plannable.id || Math.random().toString(36).substr(2, 9)),
-                    title: title,
-                    category: category,
-                    priority: 'High',
-                    dueDate: dueDate,
-                    completed: item.submissions?.submitted || false,
-                    updatedAt: Date.now()
-                });
-                importedCount++;
-            }
-        });
-
-        renderAll();
-        showMessage("Canvas Import Complete", `Successfully imported ${importedCount} assignment(s) due within this week.`);
-    } catch (err) {
-        console.error(err);
-        showMessage("Canvas Import Error", "Failed to fetch assignments: " + err.message);
-    } finally {
-        if (canvasIcon) canvasIcon.className = "fa-solid fa-graduation-cap";
-    }
-}
 
 function saveCanvasCredentials() {
     canvasDomain = document.getElementById('canvasDomainInput').value.trim();
@@ -540,7 +470,7 @@ async function fetchAITrainingAdvice() {
     };
 
     try {
-        const response = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key=${geminiApiKey}`, {
+        const response = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-3.5-flash:generateContent?key=${geminiApiKey}`, {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify(payload)
@@ -866,6 +796,84 @@ async function syncNativeNotifications() {
 }
 
 // --- TWO-WAY GOOGLE SHEETS SYNC ENGINE ---
+// --- CANVAS IMPORT ENGINE ---
+async function importCanvasAssignments() {
+    scriptUrl = document.getElementById('scriptUrlInput').value.trim();
+    canvasDomain = document.getElementById('canvasDomainInput').value.trim();
+    canvasToken = document.getElementById('canvasTokenInput').value.trim();
+
+    if (!scriptUrl || !canvasDomain || !canvasToken) {
+        openSettings();
+        showMessage("Canvas Config Required", "Please fill in your Apps Script URL, Canvas Domain, and Access Token in Settings.");
+        return;
+    }
+
+    const canvasIcon = document.getElementById('canvasIcon');
+    if (canvasIcon) canvasIcon.className = "fa-solid fa-spinner fa-spin";
+
+    const today = new Date();
+    const nextWeek = new Date(today.getTime() + 14 * 24 * 60 * 60 * 1000); // Expanded window to 14 days
+    
+    const startDate = localDateStr(today);
+    const endDate = localDateStr(nextWeek);
+
+    try {
+        const response = await fetch(scriptUrl, {
+            method: 'POST',
+            headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+            body: JSON.stringify({
+                action: "fetch_canvas",
+                domain: canvasDomain,
+                token: canvasToken,
+                startDate: startDate,
+                endDate: endDate
+            })
+        });
+
+        const plannerItems = await response.json();
+        if (!Array.isArray(plannerItems)) {
+            throw new Error(plannerItems.message || "Invalid response from Canvas API.");
+        }
+
+        let importedCount = 0;
+        plannerItems.forEach(item => {
+            const plannable = item.plannable || {};
+            const title = item.plannable_title || plannable.title || "Canvas Assignment";
+            const rawDue = item.plannable_date || plannable.due_at;
+            if (!rawDue) return;
+
+            const dueDate = normalizeDate(rawDue);
+            const category = item.context_name || item.course_name || "Canvas";
+            const uniqueId = 'canvas_' + (plannable.id || Math.random().toString(36).substr(2, 9));
+
+            const exists = appData.tasks.some(t => t.title === title && t.dueDate === dueDate);
+            if (!exists) {
+                appData.tasks.push({
+                    id: uniqueId,
+                    title: title,
+                    category: category,
+                    priority: 'High',
+                    dueDate: dueDate,
+                    completed: Boolean(item.submissions && item.submissions.submitted),
+                    deleted: false,
+                    updatedAt: Date.now()
+                });
+                importedCount++;
+            }
+        });
+
+        renderAll();
+        await triggerTwoWaySync(); // Automatically trigger sync to write imported items to Sheet immediately
+        showMessage("Canvas Import Complete", `Successfully imported ${importedCount} assignment(s).`);
+    } catch (err) {
+        console.error(err);
+        showMessage("Canvas Import Error", "Failed to fetch assignments: " + err.message);
+    } finally {
+        if (canvasIcon) canvasIcon.className = "fa-solid fa-graduation-cap";
+    }
+}
+
+// --- TWO-WAY GOOGLE SHEETS SYNC ENGINE ---
 async function triggerTwoWaySync() {
     scriptUrl = document.getElementById('scriptUrlInput').value.trim();
     if (!scriptUrl) {
@@ -878,80 +886,66 @@ async function triggerTwoWaySync() {
     const syncDot = document.getElementById('syncDot');
     const syncText = document.getElementById('syncText');
 
-    syncIcon.classList.add('fa-spin');
-    syncDot.className = "w-2 h-2 rounded-full bg-amber-400";
-    syncText.innerText = "Syncing...";
+    if (syncIcon) syncIcon.classList.add('fa-spin');
+    if (syncDot) syncDot.className = "w-2 h-2 rounded-full bg-amber-400";
+    if (syncText) syncText.innerText = "Syncing...";
 
     try {
+        // Step 1: Pull current remote state
         const response = await fetch(scriptUrl);
         const remoteData = await response.json();
 
-        mergeRemoteData(remoteData);
-        purgeTombstones();
+        if (remoteData.status === "success") {
+            mergeRemoteData(remoteData);
+            purgeTombstones();
+        }
 
-        await fetch(scriptUrl, {
+        // Step 2: Push complete merged client state
+        normalizeAllData();
+        const pushResponse = await fetch(scriptUrl, {
             method: 'POST',
-            mode: 'no-cors',
-            headers: { 'Content-Type': 'application/json' },
+            headers: { 'Content-Type': 'text/plain;charset=utf-8' },
             body: JSON.stringify(appData)
         });
 
-        syncDot.className = "w-2 h-2 rounded-full bg-emerald-500";
-        syncText.innerText = "Synced Successfully";
+        const pushResult = await pushResponse.json();
+        if (pushResult.status !== "success") {
+            throw new Error(pushResult.message || "Failed pushing state to Sheet.");
+        }
+
+        if (syncDot) syncDot.className = "w-2 h-2 rounded-full bg-emerald-500";
+        if (syncText) syncText.innerText = "Synced Successfully";
         renderAll();
-        setTimeout(() => { syncText.innerText = "Sync Ready"; }, 3000);
+        setTimeout(() => { if (syncText) syncText.innerText = "Sync Ready"; }, 3000);
     } catch (err) {
-        console.error(err);
-        syncDot.className = "w-2 h-2 rounded-full bg-rose-500";
-        syncText.innerText = "Sync Failed";
-        showMessage("Sync Error", "Could not complete two-way synchronization. Verify your Google Apps Script Web App URL.");
+        console.error("Sync Error:", err);
+        if (syncDot) syncDot.className = "w-2 h-2 rounded-full bg-rose-500";
+        if (syncText) syncText.innerText = "Sync Failed";
+        showMessage("Sync Error", "Could not complete two-way synchronization: " + err.message);
     } finally {
-        syncIcon.classList.remove('fa-spin');
+        if (syncIcon) syncIcon.classList.remove('fa-spin');
     }
 }
 
 function mergeRemoteData(remote) {
-    if (remote.tasks && Array.isArray(remote.tasks)) {
-        remote.tasks.forEach(rt => {
-            normalizeTask(rt);
-            const existingIndex = appData.tasks.findIndex(t => t.id === rt.id);
-            if (existingIndex !== -1) {
-                if (rt.updatedAt >= appData.tasks[existingIndex].updatedAt) {
-                    appData.tasks[existingIndex] = rt;
-                }
-            } else {
-                appData.tasks.push(rt);
-            }
-        });
-    }
+    ['tasks', 'workouts', 'schedule'].forEach(key => {
+        if (remote[key] && Array.isArray(remote[key])) {
+            remote[key].forEach(remoteItem => {
+                if (!remoteItem || !remoteItem.id) return;
+                const localIndex = appData[key].findIndex(i => String(i.id) === String(remoteItem.id));
+                const remoteUpdated = Number(remoteItem.updatedAt) || 0;
 
-    if (remote.workouts && Array.isArray(remote.workouts)) {
-        remote.workouts.forEach(rw => {
-            normalizeWorkout(rw);
-            const existingIndex = appData.workouts.findIndex(w => w.id === rw.id);
-            if (existingIndex !== -1) {
-                if (rw.updatedAt >= appData.workouts[existingIndex].updatedAt) {
-                    appData.workouts[existingIndex] = rw;
+                if (localIndex !== -1) {
+                    const localUpdated = Number(appData[key][localIndex].updatedAt) || 0;
+                    if (remoteUpdated >= localUpdated) {
+                        appData[key][localIndex] = remoteItem;
+                    }
+                } else {
+                    appData[key].push(remoteItem);
                 }
-            } else {
-                appData.workouts.push(rw);
-            }
-        });
-    }
-
-    if (remote.schedule && Array.isArray(remote.schedule)) {
-        remote.schedule.forEach(rs => {
-            normalizeScheduleItem(rs);
-            const existingIndex = appData.schedule.findIndex(s => s.id === rs.id);
-            if (existingIndex !== -1) {
-                if (rs.updatedAt >= appData.schedule[existingIndex].updatedAt) {
-                    appData.schedule[existingIndex] = rs;
-                }
-            } else {
-                appData.schedule.push(rs);
-            }
-        });
-    }
+            });
+        }
+    });
 }
 
 function openSettings() { document.getElementById('settingsModal').classList.remove('hidden'); }
